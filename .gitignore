@@ -1,2 +1,4 @@
 node_modules/
 package-lock.json
+pack-site/assets/*.png
+pack-site/assets/*.mp4
