@@ -121,11 +121,13 @@ header.solid{background:rgba(2,4,7,.8);backdrop-filter:blur(20px) saturate(1.5);
 }
 
 /* ---------- Hero ---------- */
-.hero{height:100svh;min-height:600px;position:relative;overflow:hidden;display:flex;
-  flex-direction:column;justify-content:flex-end;padding-bottom:clamp(30px,6vh,70px)}
+.hero{height:100svh;min-height:680px;position:relative;overflow:hidden;display:flex;
+  flex-direction:column;justify-content:flex-end;padding-bottom:clamp(22px,4vh,48px)}
 #heroGL{position:absolute;inset:0;z-index:0;width:100%;height:100%}
 .heroveil{position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:radial-gradient(ellipse 70% 55% at 50% 42%,transparent,rgba(0,0,0,.5) 72%,#000 100%)}
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.62) 7%,rgba(0,0,0,.12) 15%,transparent 24%),
+    radial-gradient(ellipse 86% 72% at 50% 42%,transparent,rgba(0,0,0,.42) 74%,#000 100%)}
 .heroC{position:relative;z-index:2;max-width:var(--maxw);margin:0 auto;padding-inline:var(--pad);width:100%}
 
 /* TextPressure */
@@ -275,9 +277,72 @@ header.solid{background:rgba(2,4,7,.8);backdrop-filter:blur(20px) saturate(1.5);
   opacity:0;transition:opacity .45s}
 .card:hover::after{opacity:1}
 .card:hover{box-shadow:0 20px 60px rgba(0,0,0,.6)}
-.card canvas.pv{position:absolute;inset:0;z-index:0;width:100%;height:100%;opacity:.72;
-  transition:opacity .7s var(--ease),transform .7s var(--ease)}
-.card:hover canvas.pv{opacity:1;transform:scale(1.06)}
+.card canvas.pv{position:absolute;inset:0;z-index:1;width:100%;height:100%;opacity:0;
+  transition:opacity .7s var(--ease),transform .9s var(--ease);transform:scale(.94)}
+.card:hover canvas.pv{opacity:1;transform:scale(1)}
+.card .photo{position:absolute;left:0;right:0;top:7%;height:60%;z-index:0;width:100%;
+  object-fit:contain;opacity:1;
+  filter:drop-shadow(0 26px 34px rgba(0,0,0,.75)) drop-shadow(0 0 42px rgba(201,151,0,.14));
+  transition:opacity .55s var(--ease),transform 1s var(--ease)}
+.card:hover .photo{opacity:0;transform:scale(1.07) translateY(-6px)}
+.card.wide .photo{height:64%;top:6%}
+.card .hint{position:absolute;right:16px;bottom:14px;z-index:3;font-size:9px;letter-spacing:.17em;
+  text-transform:uppercase;color:var(--gold);opacity:0;transition:opacity .5s var(--ease);font-weight:600}
+.card:hover .hint{opacity:.85}
+@media(pointer:coarse){
+  .card .photo{opacity:.8}
+  .card canvas.pv{display:none}
+  .card .hint{display:none}
+}
+
+/* ---------- Video background behind section text ---------- */
+.hasvid{isolation:isolate}
+.hasvid > *:not(.vidbg){position:relative;z-index:1}
+.vidbg{position:absolute;top:0;bottom:0;left:50%;width:100vw;transform:translateX(-50%);
+  z-index:0;overflow:hidden;pointer-events:none;opacity:0;transition:opacity 1.6s var(--ease)}
+.vidbg.ready{opacity:1}
+.vidbg video{width:100%;height:100%;object-fit:cover;display:block;
+  filter:saturate(.8) contrast(1.06) brightness(.52)}
+.vidbg::after{content:"";position:absolute;inset:0;
+  background:
+    linear-gradient(180deg,#000 0%,rgba(0,0,0,.55) 18%,rgba(0,0,0,.55) 82%,#000 100%),
+    radial-gradient(ellipse 82% 68% at 32% 46%,rgba(0,0,0,.34),rgba(0,0,0,.78) 68%,rgba(0,0,0,.94) 100%)}
+.vidbg .vgrid{position:absolute;inset:0;opacity:.5;
+  background:
+    repeating-linear-gradient(0deg,transparent,transparent 47px,rgba(201,151,0,.05) 47px,rgba(201,151,0,.05) 48px),
+    repeating-linear-gradient(90deg,transparent,transparent 47px,rgba(201,151,0,.05) 47px,rgba(201,151,0,.05) 48px)}
+@media(prefers-reduced-motion:reduce){.vidbg{display:none}}
+
+/* ---------- Figure / gallery ---------- */
+.fig{position:relative;overflow:hidden;border:1px solid var(--rule);background:var(--surface);
+  border-radius:14px}
+.fig img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 1.2s var(--ease),filter .7s var(--ease);filter:saturate(.92) contrast(1.04)}
+.fig:hover img{transform:scale(1.045);filter:saturate(1) contrast(1.08)}
+.fig figcaption{position:absolute;left:0;right:0;bottom:0;padding:16px 18px;z-index:2;
+  background:linear-gradient(transparent,rgba(2,4,8,.92));
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--mist);font-weight:500;
+  display:flex;justify-content:space-between;gap:12px;align-items:baseline}
+.fig figcaption b{color:var(--gold-br);font-weight:600}
+.fig::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;
+  transition:opacity .45s;box-shadow:inset 0 0 0 1px rgba(232,185,35,.5)}
+.fig:hover::after{opacity:1}
+
+.gal{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.gal .fig{grid-column:span 2;aspect-ratio:16/10}
+.gal .fig.big{grid-column:span 3;aspect-ratio:16/9}
+.gal .fig.full{grid-column:span 6;aspect-ratio:21/9}
+@media(max-width:1000px){
+  .gal{grid-template-columns:repeat(2,1fr)}
+  .gal .fig,.gal .fig.big,.gal .fig.full{grid-column:span 2;aspect-ratio:16/9}
+}
+
+/* ---------- Build strip ---------- */
+.buildrow{display:grid;grid-template-columns:1.25fr .75fr;gap:12px;align-items:stretch}
+@media(max-width:980px){.buildrow{grid-template-columns:1fr}}
+.buildrow .fig{min-height:280px}
+
+/* ---------- Downloads ---------- */
 .cardTop{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .ctag{font-size:9.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);font-weight:600;
   border:1px solid rgba(201,151,0,.3);padding:5px 10px;border-radius:999px;background:rgba(0,0,0,.35)}
@@ -404,6 +469,7 @@ footer{border-top:1px solid var(--rule);padding-block:clamp(46px,6vw,76px) 32px}
       <a href="#problem" data-nav>Problem</a>
       <a href="#process" data-nav>Process</a>
       <a href="#machine" data-nav>Machine</a>
+      <a href="#built" data-nav>Built</a>
       <a href="#products" data-nav>Products</a>
       <a href="#tag" data-nav>The Tag</a>
       <a href="research.html">Research</a>
@@ -537,7 +603,12 @@ footer{border-top:1px solid var(--rule);padding-block:clamp(46px,6vw,76px) 32px}
 <div class="rule"></div>
 
 <!-- ==================== MACHINE ==================== -->
-<section class="wrap" id="machine">
+<section class="wrap hasvid" id="machine">
+  <div class="vidbg" data-vid>
+    <video muted loop playsinline preload="none" poster="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_691ec520-adb3-47ea-9f5a-74fb2b2ccaf7.png"
+           data-src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_212027_e017a8e4-5b07-4f18-9f32-47fdc173aeb1.mp4" aria-hidden="true"></video>
+    <div class="vgrid"></div>
+  </div>
   <div class="shead">
     <div>
       <p class="snum rv">04 — The machine</p>
@@ -670,15 +741,106 @@ footer{border-top:1px solid var(--rule);padding-block:clamp(46px,6vw,76px) 32px}
       </div>
     </div>
   </div>
+
+  <p class="eyebrow rv" style="margin:clamp(52px,7vw,92px) 0 22px">The drawing set</p>
+  <div class="gal rv">
+    <figure class="fig big">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_a02c7e13-c1d6-43a4-91a4-b593ed61a1e7.png"
+           alt="Master assembly elevation blueprint of Unit 01, dimensioned 1180 by 720 mm" loading="lazy">
+      <figcaption><span>Master elevation · scale 1:8</span><b>Sheet 01</b></figcaption>
+    </figure>
+    <figure class="fig big">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_4d550211-a325-4e85-a806-af0005acc2c2.png"
+           alt="Exploded axonometric blueprint showing every component separated with a priced parts list" loading="lazy">
+      <figcaption><span>Exploded axonometric · every part priced</span><b>Sheet 02</b></figcaption>
+    </figure>
+    <figure class="fig">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_13d83e22-a6a3-4e73-9011-496d60992589.png"
+           alt="Cutaway section detail of the shredder drum showing twelve blades on a hex shaft" loading="lazy">
+      <figcaption><span>Shredder section</span><b>Sheet 03</b></figcaption>
+    </figure>
+    <figure class="fig">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_ec9f65c7-236f-477d-8c86-ac54080e1302.png"
+           alt="Longitudinal cutaway of the pultrusion head showing both heater zones and the die" loading="lazy">
+      <figcaption><span>Pultrusion head</span><b>Sheet 04</b></figcaption>
+    </figure>
+    <figure class="fig">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_d5c1c261-008e-42a0-9494-e985d90f1311.png"
+           alt="Flat pattern nesting layout for laser cutting the five steel frame panels" loading="lazy">
+      <figcaption><span>Laser nesting · 6 mm steel</span><b>Sheet 05</b></figcaption>
+    </figure>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ==================== BUILT ==================== -->
+<section class="wrap" id="built">
+  <div class="shead">
+    <div>
+      <p class="snum rv">05 — Built</p>
+      <h2 class="h2 rv" data-d="1">Sixty-four<br>kilos of<br>evidence</h2>
+    </div>
+    <div class="rv" data-d="2" style="padding-top:clamp(0px,3vw,44px)">
+      <p class="lead">Ninety-one parts. Two lines sharing one bench. A drum that turns at seventy revolutions a minute and a barrel that holds two hundred and forty-five degrees without drifting.</p>
+      <p style="margin-top:16px">Laid out flat, it is a modest pile of steel and a few printed brackets. Assembled, it closes a loop that currently ends in a landfill.</p>
+    </div>
+  </div>
+
+  <div class="buildrow rv" style="margin-bottom:12px">
+    <figure class="fig">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_691ec520-adb3-47ea-9f5a-74fb2b2ccaf7.png"
+           alt="Unit 01 fully assembled, photographed in three-quarter view" loading="lazy">
+      <figcaption><span>Assembled · 1180 × 720 × 620 mm</span><b>$968</b></figcaption>
+    </figure>
+    <figure class="fig">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_49500974-c29d-4b2f-be1e-e096303f11d8.png"
+           alt="Every component of Unit 01 disassembled and laid out flat in rows" loading="lazy">
+      <figcaption><span>Disassembled · full inventory</span><b>91 parts</b></figcaption>
+    </figure>
+  </div>
+
+  <div class="gal rv">
+    <figure class="fig big">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210014_43bcd0ba-479b-4c4f-a5bb-db13b2a635fa.png"
+           alt="The machine installed on a workbench in a university engineering lab at night" loading="lazy">
+      <figcaption><span>On the bench, after hours</span><b>South Bend</b></figcaption>
+    </figure>
+    <figure class="fig big">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_683481e5-6b76-444e-a86e-371c45b313f3.png"
+           alt="Front elevation photograph of the assembled machine against a black background" loading="lazy">
+      <figcaption><span>Front elevation</span><b>Unit 01</b></figcaption>
+    </figure>
+    <figure class="fig">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210014_14bf1ec2-6c5d-455b-9f83-85d3ed50e1f0.png"
+           alt="Macro photograph of navy filament emerging from the brass die at 245 degrees" loading="lazy">
+      <figcaption><span>Die exit</span><b>245 °C</b></figcaption>
+    </figure>
+    <figure class="fig">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210014_9e18a219-d5b0-49da-aabe-5afd08b7f60b.png"
+           alt="Looking down into the shredder hopper at cap flake resting on the blades" loading="lazy">
+      <figcaption><span>Hopper · cap flake</span><b>70 rpm</b></figcaption>
+    </figure>
+    <figure class="fig">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210137_79034a56-ba70-48b7-aa93-da4448bdddee.png"
+           alt="A spool of finished navy recycled PET filament at 1.75 mm" loading="lazy">
+      <figcaption><span>Output</span><b>1.75 ± 0.05</b></figcaption>
+    </figure>
+  </div>
 </section>
 
 <div class="rule"></div>
 
 <!-- ==================== PRODUCTS ==================== -->
-<section class="wrap" id="products">
+<section class="wrap hasvid" id="products">
+  <div class="vidbg" data-vid>
+    <video muted loop playsinline preload="none" poster="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210137_dc378809-1021-4df0-b5da-693bbfcf4821.png"
+           data-src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_212027_023bb33a-bd20-41a1-89e9-8dcf33449549.mp4" aria-hidden="true"></video>
+    <div class="vgrid"></div>
+  </div>
   <div class="shead">
     <div>
-      <p class="snum rv">05 — Objects</p>
+      <p class="snum rv">06 — Objects</p>
       <h2 class="h2 rv" data-d="1">Made for<br>the dorm</h2>
     </div>
     <div class="rv" data-d="2" style="padding-top:clamp(0px,3vw,44px)">
@@ -687,10 +849,19 @@ footer{border-top:1px solid var(--rule);padding-block:clamp(46px,6vw,76px) 32px}
     </div>
   </div>
 
+  <figure class="fig rv" style="aspect-ratio:21/9;margin-bottom:14px">
+    <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210137_dc378809-1021-4df0-b5da-693bbfcf4821.png"
+         alt="The full Irish Comeback product family printed in recycled navy PET with gold accents" loading="lazy">
+    <figcaption><span>The full line — one Saturday's plastic</span><b>Six objects</b></figcaption>
+  </figure>
+
   <div class="bento" id="bento">
     <article class="card wide" data-prod="0" data-spot>
+      <img class="photo" src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_211323_c1f42000-d721-4b1f-8917-219bb4c6d419.png"
+           alt="The Dome Organizer, a navy 3D-printed hexagonal desk organizer with a gold collar band" loading="lazy">
       <canvas class="pv"></canvas><div class="reveal"></div>
       <div class="cardTop"><span class="ctag">Desk</span><span class="ctag" style="color:var(--emerald);border-color:rgba(16,185,129,.3)">14 bottles</span></div>
+      <span class="hint">Drag to rotate</span>
       <div class="cbot">
         <h3 class="cname">The Dome Organizer</h3>
         <p class="cdesc">Hex-cell desk organizer with a gold band at the collar. Pens, cables, keys, the meal-swipe card you keep losing. Prints flat in one piece with no supports.</p>
@@ -699,8 +870,11 @@ footer{border-top:1px solid var(--rule);padding-block:clamp(46px,6vw,76px) 32px}
     </article>
 
     <article class="card" data-prod="1" data-spot>
+      <img class="photo" src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_211332_5bbb09c9-ad10-4b43-8f17-823c5c97f67c.png"
+           alt="The Ribbed Tumbler, a navy 3D-printed fluted tumbler with a gold lip ring" loading="lazy">
       <canvas class="pv"></canvas><div class="reveal"></div>
       <div class="cardTop"><span class="ctag">Daily</span><span class="ctag" style="color:var(--emerald);border-color:rgba(16,185,129,.3)">9 bottles</span></div>
+      <span class="hint">Drag to rotate</span>
       <div class="cbot">
         <h3 class="cname">Ribbed Tumbler</h3>
         <p class="cdesc">Double-wall vessel with a vertical rib pattern that hides layer lines instead of fighting them. Cold drinks only — recycled PET is not food-grade hot.</p>
@@ -709,18 +883,24 @@ footer{border-top:1px solid var(--rule);padding-block:clamp(46px,6vw,76px) 32px}
     </article>
 
     <article class="card" data-prod="2" data-spot>
+      <img class="photo" src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_211403_5bc74749-3624-461c-bd68-bd484ed085cf.png"
+           alt="The Handle, a navy 3D-printed NFC keychain with a gold contact disc and steel split ring" loading="lazy">
       <canvas class="pv"></canvas><div class="reveal"></div>
-      <div class="cardTop"><span class="ctag">Carry</span><span class="ctag" style="color:var(--emerald);border-color:rgba(16,185,129,.3)">1 bottle</span></div>
+      <div class="cardTop"><span class="ctag">Carry</span><span class="ctag" style="color:var(--gold-br);border-color:rgba(201,151,0,.4)">New</span></div>
+      <span class="hint">Hover for the model</span>
       <div class="cbot">
-        <h3 class="cname">Game Day Tag</h3>
-        <p class="cdesc">A keychain tag pressed from cap flake, so every one is a different marbled navy. Tap it and it opens the shop.</p>
-        <div class="cmeta"><span>PP #5</span><span><b>11 g</b></span><span>Marbled</span></div>
+        <h3 class="cname">The Handle</h3>
+        <p class="cdesc">Tap it to any phone and your profile opens. Nothing to spell out, nothing to scan, no app to install. One bottle cap of PP and an eighteen-cent chip.</p>
+        <div class="cmeta"><span>PP #5</span><span><b>14 g</b></span><span>NTAG215</span></div>
       </div>
     </article>
 
     <article class="card wide" data-prod="3" data-spot>
+      <img class="photo" src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_211408_ad189b5f-262a-48cd-aa4b-379aad4d4cb0.png"
+           alt="The Comeback Block, a solid navy 3D-printed block with a recessed gold NFC target" loading="lazy">
       <canvas class="pv"></canvas><div class="reveal"></div>
       <div class="cardTop"><span class="ctag">Focus</span><span class="ctag" style="color:var(--gold-br);border-color:rgba(201,151,0,.4)">Flagship</span></div>
+      <span class="hint">Hover for the model</span>
       <div class="cbot">
         <h3 class="cname">The Comeback Block</h3>
         <p class="cdesc">Set your phone face-down on it and the tag starts a focus session. Lift it early and the timer breaks. A physical object with an opinion about your attention.</p>
@@ -728,13 +908,29 @@ footer{border-top:1px solid var(--rule);padding-block:clamp(46px,6vw,76px) 32px}
       </div>
     </article>
 
-    <article class="card wide" data-prod="4" data-spot>
+    <article class="card" data-prod="4" data-spot>
+      <img class="photo" src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_211414_a56b5062-3fb4-4d0e-bb4d-5d9b901a9132.png"
+           alt="The Stack Shelf Module, a navy 3D-printed open square shelf frame with a gold connector node" loading="lazy">
       <canvas class="pv"></canvas><div class="reveal"></div>
       <div class="cardTop"><span class="ctag">Room</span><span class="ctag" style="color:var(--emerald);border-color:rgba(16,185,129,.3)">22 bottles</span></div>
+      <span class="hint">Drag to rotate</span>
       <div class="cbot">
         <h3 class="cname">Stack Shelf Module</h3>
         <p class="cdesc">Interlocking modules that stack without fasteners and come apart when you move out. Print one a week and by November you have a bookshelf made of last season.</p>
         <div class="cmeta"><span>PET #1 + PP #5</span><span><b>310 g</b></span><span>Modular</span></div>
+      </div>
+    </article>
+
+    <article class="card" data-prod="5" data-spot>
+      <img class="photo" src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_211737_8590c9a6-242d-4fc3-a649-7cab95dbbd91.png"
+           alt="Comeback Filament, a navy spool wound with 1.75 mm recycled PET filament" loading="lazy">
+      <canvas class="pv"></canvas><div class="reveal"></div>
+      <div class="cardTop"><span class="ctag">Material</span><span class="ctag" style="color:var(--emerald);border-color:rgba(16,185,129,.3)">32 bottles</span></div>
+      <span class="hint">Hover for the model</span>
+      <div class="cbot">
+        <h3 class="cname">Comeback Filament</h3>
+        <p class="cdesc">The material itself, on a spool. 1.75 mm, sampled at ten points before it leaves the bench. Sold to anyone on campus with an open-material printer.</p>
+        <div class="cmeta"><span>PET #1</span><span><b>800 g</b></span><span>1.75 ± 0.05</span></div>
       </div>
     </article>
   </div>
@@ -743,10 +939,15 @@ footer{border-top:1px solid var(--rule);padding-block:clamp(46px,6vw,76px) 32px}
 <div class="rule"></div>
 
 <!-- ==================== NFC / PHONE ==================== -->
-<section class="wrap" id="tag">
+<section class="wrap hasvid" id="tag">
+  <div class="vidbg" data-vid>
+    <video muted loop playsinline preload="none" poster="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210137_c7972597-a55f-4356-b51b-ba4a5bd8adf9.png"
+           data-src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_212027_5b135055-38c1-4f32-b113-c37cc59c72e0.mp4" aria-hidden="true"></video>
+    <div class="vgrid"></div>
+  </div>
   <div class="shead">
     <div>
-      <p class="snum rv">06 — The tag</p>
+      <p class="snum rv">07 — The tag</p>
       <h2 class="h2 rv" data-d="1">Every object<br>knows itself</h2>
     </div>
     <div class="rv" data-d="2" style="padding-top:clamp(0px,3vw,44px)">
@@ -759,6 +960,19 @@ footer{border-top:1px solid var(--rule);padding-block:clamp(46px,6vw,76px) 32px}
         <div><b>100k</b><span>Rewrites</span></div>
       </div>
     </div>
+  </div>
+
+  <div class="gal rv" style="margin-bottom:clamp(24px,3.4vw,44px)">
+    <figure class="fig big" style="aspect-ratio:4/3">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210137_c7972597-a55f-4356-b51b-ba4a5bd8adf9.png"
+           alt="A phone held just above The Handle at the moment the NFC tag is read" loading="lazy">
+      <figcaption><span>The Handle, read at 3 cm — no app, no pairing</span><b>Opens a profile</b></figcaption>
+    </figure>
+    <figure class="fig big" style="aspect-ratio:4/3">
+      <img src="https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210137_9a4925d7-2256-4e9c-a636-8f3841e4c5c6.png"
+           alt="A phone lying face down on the Comeback Block during a focus session" loading="lazy">
+      <figcaption><span>Same chip, opposite job — phone down, timer running</span><b>Starts a session</b></figcaption>
+    </figure>
   </div>
 
   <div class="nfcwrap">
@@ -845,7 +1059,7 @@ footer{border-top:1px solid var(--rule);padding-block:clamp(46px,6vw,76px) 32px}
 <section class="wrap" id="get">
   <div class="shead">
     <div>
-      <p class="snum rv">07 — Build it</p>
+      <p class="snum rv">08 — Build it</p>
       <h2 class="h2 rv" data-d="1">Take the<br>whole thing</h2>
     </div>
     <div class="rv" data-d="2" style="padding-top:clamp(0px,3vw,44px)">
@@ -897,7 +1111,7 @@ footer{border-top:1px solid var(--rule);padding-block:clamp(46px,6vw,76px) 32px}
         <p class="sm" style="max-width:34ch">A student circular-manufacturing initiative at the University of Notre Dame. Because everything comes back.</p>
       </div>
       <div class="fc"><h5>The line</h5>
-        <a href="#problem">Problem</a><a href="#process">Process</a><a href="#machine">Machine</a></div>
+        <a href="#problem">Problem</a><a href="#process">Process</a><a href="#machine">Machine</a><a href="#built">Built</a></div>
       <div class="fc"><h5>Objects</h5>
         <a href="#products">Products</a><a href="#tag">The tag</a><a href="#get">Blueprint pack</a></div>
       <div class="fc"><h5>Elsewhere</h5>
@@ -1027,11 +1241,11 @@ function prism(mesh,sides,r,h,oy){
     mesh.tri([0,oy-y,0],b,a,[0,-1,0],[0,-1,0],[0,-1,0]);
   }
 }
-function torusM(mesh,R,r,sa,sb,oy){
-  oy=oy||0;
+function torusM(mesh,R,r,sa,sb,oy,ox){
+  oy=oy||0;ox=ox||0;
   for(var i=0;i<sa;i++)for(var j=0;j<sb;j++){
     var u0=i/sa*TAU,u1=(i+1)/sa*TAU,v0=j/sb*TAU,v1=(j+1)/sb*TAU;
-    function P(u,v){return[(R+r*Math.cos(v))*Math.cos(u),oy+r*Math.sin(v),(R+r*Math.cos(v))*Math.sin(u)];}
+    function P(u,v){return[ox+(R+r*Math.cos(v))*Math.cos(u),oy+r*Math.sin(v),(R+r*Math.cos(v))*Math.sin(u)];}
     function N(u,v){return[Math.cos(v)*Math.cos(u),Math.sin(v),Math.cos(v)*Math.sin(u)];}
     mesh.tri(P(u0,v0),P(u1,v0),P(u1,v1),N(u0,v0),N(u1,v0),N(u1,v1));
     mesh.tri(P(u0,v0),P(u1,v1),P(u0,v1),N(u0,v0),N(u1,v1),N(u0,v1));
@@ -1242,7 +1456,7 @@ requestAnimationFrame(tick);
     var a=fitCanvas(cv,gl);
     gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);
     persp(P,0.86,a,0.1,60);
-    ident(M);trans(M,0,0.02,-3.15);rotX(M,rx);rotY(M,ry);
+    ident(M);trans(M,0,-0.03,-2.58);rotX(M,rx);rotY(M,ry);
     gl.useProgram(pr);
     gl.uniformMatrix4fv(uP,false,P);gl.uniformMatrix4fv(uM,false,M);
     gl.uniform1f(uPh,ph);gl.uniform1f(uT,t);
@@ -1438,43 +1652,55 @@ requestAnimationFrame(tick);
 (function(){
   var NAVY1=[0.045,0.11,0.22],NAVY2=[0.085,0.21,0.40];
   var builders=[
-    function(m){ // Dome Organizer — hex body + gold collar + gold cap ring
+    function(m){ // 0 Dome Organizer — hex body + gold collar + gold cap ring
       m.flag=0; prism(m,6,0.72,1.18,0);
       m.flag=1; torusM(m,0.752,0.055,36,12,0.44);
       m.flag=0; prism(m,6,0.30,0.30,0.72);
       m.flag=1; torusM(m,0.315,0.035,30,10,0.86); m.flag=0;
     },
-    function(m){ // Ribbed Tumbler — gold lip ring
+    function(m){ // 1 Ribbed Tumbler — gold lip ring
       m.flag=0;
       lathe(m,[[0.40,-0.86],[0.425,-0.80],[0.435,-0.2],[0.44,0.35],[0.455,0.72],[0.45,0.84],[0.40,0.86]],54,18,0.045);
       disc(m,0.40,-0.86,44,-1);
       m.flag=1; torusM(m,0.458,0.042,46,10,0.70); m.flag=0;
     },
-    function(m){ // Game Day Tag — gold hole grommet + gold inlay ring
-      m.flag=0; boxM(m,1.02,1.34,0.13,0,0,0);
-      m.flag=1; torusM(m,0.13,0.05,28,10,0.50);
-      torusM(m,0.34,0.045,32,10,-0.06); m.flag=0;
+    function(m){ // 2 The Handle — flat NFC keychain tag + split ring
+      m.flag=0; boxM(m,1.12,0.11,0.68,0,0,0);
+      m.flag=1;
+      torusM(m,0.23,0.045,40,12,0.056);
+      disc(m,0.205,0.058,36,1);
+      torusM(m,0.30,0.018,40,10,0.058);
+      m.flag=0;
+      torusM(m,0.16,0.036,26,10,0.02,-0.72);
     },
-    function(m){ // Comeback Block — gold NFC target
+    function(m){ // 3 Comeback Block — gold NFC target
       m.flag=0; boxM(m,1.30,0.52,0.90,0,0,0);
       m.flag=1; torusM(m,0.27,0.05,42,12,0.26);
       disc(m,0.24,0.262,36,1); m.flag=0;
     },
-    function(m){ // Stack Shelf Module — gold connector node
+    function(m){ // 4 Stack Shelf Module — gold connector node
       m.flag=0;
       boxM(m,1.60,0.10,0.72,0,0.52,0);
       boxM(m,1.60,0.10,0.72,0,-0.52,0);
       boxM(m,0.10,1.14,0.72,-0.75,0,0);
       boxM(m,0.10,1.14,0.72,0.75,0,0);
       m.flag=1; torusM(m,0.11,0.04,22,8,0.58); m.flag=0;
+    },
+    function(m){ // 5 Comeback Filament — spool with wound coil
+      m.flag=0;
+      lathe(m,[[0.34,-0.30],[0.64,-0.28],[0.64,-0.22],[0.34,-0.20],
+               [0.34,0.20],[0.64,0.22],[0.64,0.28],[0.34,0.30]],44,0,0);
+      lathe(m,[[0.53,-0.185],[0.545,0.0],[0.53,0.185]],52,64,0.016);
+      m.flag=1; torusM(m,0.355,0.032,34,10,0); m.flag=0;
     }
   ];
   var opts=[
     {dist:3.5,scale:1.0,metal:.32},
     {dist:3.2,scale:1.05,metal:.30},
-    {dist:3.1,scale:1.02,metal:.42},
+    {dist:3.0,scale:1.06,metal:.42},
     {dist:3.4,scale:1.05,metal:.38},
-    {dist:4.0,scale:1.0,metal:.30}
+    {dist:4.0,scale:1.0,metal:.30},
+    {dist:3.3,scale:1.02,metal:.34}
   ];
   document.querySelectorAll('.card').forEach(function(card){
     var i=+card.dataset.prod, cv=card.querySelector('canvas.pv');
@@ -1797,6 +2023,28 @@ document.querySelectorAll('.card').forEach(function(card){
   })});
   var tt=document.getElementById('totop');
   if(tt)tt.addEventListener('click',function(){scrollTo({top:0,behavior:REDUCE?'auto':'smooth'})});
+})();
+
+/* video backgrounds — lazy, viewport-gated, always silent */
+(function(){
+  if(REDUCE)return;
+  var wraps=[].slice.call(document.querySelectorAll('[data-vid]'));
+  if(!wraps.length)return;
+  var vio=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      var wrap=e.target,v=wrap.querySelector('video');
+      if(!v)return;
+      if(e.isIntersecting){
+        if(!v.getAttribute('src')&&v.dataset.src){
+          v.setAttribute('src',v.dataset.src);
+          v.addEventListener('loadeddata',function(){wrap.classList.add('ready')},{once:true});
+          v.addEventListener('error',function(){wrap.remove()},{once:true});
+        }
+        var pr=v.play();if(pr&&pr.catch)pr.catch(function(){});
+      }else{try{v.pause();}catch(_){}}
+    });
+  },{rootMargin:'240px 0px',threshold:.01});
+  wraps.forEach(function(w){vio.observe(w)});
 })();
 
 /* preloader */
