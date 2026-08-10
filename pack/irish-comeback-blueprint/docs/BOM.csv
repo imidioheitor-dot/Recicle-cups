@@ -1,0 +1,22 @@
+Line,Item,Spec,Vendor,Qty,Unit USD,Total USD
+A - Pultrusion,ReCreator 3D MK6 pultrusion kit,Open-source build kit,KB-3D,1,189.00,189.00
+A - Pultrusion,Bottle cutter jig,4-blade adjustable width,Amazon,1,18.00,18.00
+A - Pultrusion,Hotend V6 24V,With thermistor + heater cartridge,Amazon,1,24.00,24.00
+A - Pultrusion,Stepper motor NEMA 17 + driver,1.8 deg / A4988,Amazon,1,22.00,22.00
+A - Pultrusion,Control board + display,32-bit BTT/MKS,Amazon,1,35.00,35.00
+A - Pultrusion,Power supply,24V 10A,Amazon,1,28.00,28.00
+A - Pultrusion,PTFE tubing + nozzle set,1.75mm bore,Amazon,1,14.00,14.00
+A - Pultrusion,Spooler + guide,Printed in-house PETG,ND Architecture Makerspace,1,12.00,12.00
+B - Shredder,Hardened blade set,12 blades + spacers,Precious Plastic Bazar,1,110.00,110.00
+B - Shredder,Hex drive shaft,20mm C45 steel,McMaster-Carr,1,24.00,24.00
+B - Shredder,Pillow block bearings,20mm bore,Amazon,4,6.50,26.00
+B - Shredder,Worm gear reducer,60:1 ratio,Surplus Center,1,145.00,145.00
+B - Shredder,Motor,1.5 HP 110V surplus,Surplus Center,1,120.00,120.00
+B - Shredder,Frame + hopper,6mm steel laser cut,ND Innovation Lab (material),1,45.00,45.00
+B - Shredder,Switchgear + E-stop + wiring,IEC rated,Amazon,1,58.00,58.00
+Shared,Food dehydrator,Adjustable to 65C,Amazon,1,45.00,45.00
+Shared,NFC tags NTAG215,504-byte NDEF x100,Amazon,1,18.00,18.00
+Shared,PPE set,Gloves goggles respirator extinguisher,Amazon,1,35.00,35.00
+,,,,,SUBTOTAL,968.00
+,,,,,CONTINGENCY,32.00
+,,,,,BUDGET CEILING,1000.00

@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 420" width="900" height="420">
+<rect width="900" height="420" fill="#0A1626"/>
+<defs><style>
+.b{fill:#7FA9DC;fill-opacity:.08;stroke:#7FA9DC;stroke-width:1.3}
+.bg{fill:#C99700;fill-opacity:.12;stroke:#E8B923;stroke-width:1.4}
+.a{fill:none;stroke:#E8B923;stroke-width:1.4;marker-end:url(#ar)}
+.t{fill:#DCE6F2;font:11px ui-monospace,monospace}
+.s{fill:#9FBEE0;font:8.5px ui-monospace,monospace}
+.h{fill:#E8B923;font:bold 14px ui-monospace,monospace;letter-spacing:2px}
+.lb{fill:#E8B923;font:bold 9px ui-monospace,monospace;letter-spacing:1.5px}
+</style>
+<marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+<path d="M0 0 L9 4.5 L0 9 z" fill="#E8B923"/></marker></defs>
+<text class="h" x="40" y="42">PROCESS FLOW — BOTH LINES</text>
+<rect class="b" x="40" y="80" width="130" height="66" rx="5"/>
+<text class="t" x="58" y="110">STADIUM</text><text class="s" x="58" y="126">green barrels</text>
+<path class="a" d="M170 113 H222"/>
+<rect class="bg" x="226" y="80" width="130" height="66" rx="5"/>
+<text class="t" x="244" y="110">SEPARATE</text><text class="s" x="244" y="126">by hand · caps off</text>
+<path class="a" d="M291 146 V196"/>
+<path class="a" d="M356 113 H420 V196"/>
+<text class="lb" x="60" y="220">LINE A — PET #1</text>
+<rect class="b" x="40" y="232" width="118" height="62" rx="5"/>
+<text class="t" x="56" y="260">DRY</text><text class="s" x="56" y="276">65C · 4h</text>
+<path class="a" d="M158 263 H206"/>
+<rect class="b" x="210" y="232" width="118" height="62" rx="5"/>
+<text class="t" x="226" y="260">CUT RIBBON</text><text class="s" x="226" y="276">jig · 7-9mm</text>
+<path class="a" d="M328 263 H376"/>
+<rect class="bg" x="380" y="232" width="118" height="62" rx="5"/>
+<text class="t" x="396" y="260">PULTRUDE</text><text class="s" x="396" y="276">245C</text>
+<path class="a" d="M498 263 H546"/>
+<rect class="b" x="550" y="232" width="118" height="62" rx="5"/>
+<text class="t" x="566" y="260">SPOOL</text><text class="s" x="566" y="276">1.75 ±0.05</text>
+<path class="a" d="M668 263 H716"/>
+<rect class="bg" x="720" y="232" width="140" height="62" rx="5"/>
+<text class="t" x="736" y="260">PRINT</text><text class="s" x="736" y="276">open-material FDM</text>
+<text class="lb" x="60" y="336">LINE B — PP #5 / HDPE #2</text>
+<rect class="b" x="40" y="348" width="118" height="56" rx="5"/>
+<text class="t" x="56" y="374">SHRED</text><text class="s" x="56" y="390">70 rpm</text>
+<path class="a" d="M158 376 H206"/>
+<rect class="b" x="210" y="348" width="118" height="56" rx="5"/>
+<text class="t" x="226" y="374">FLAKE</text><text class="s" x="226" y="390">washed</text>
+<path class="a" d="M328 376 H376"/>
+<rect class="bg" x="380" y="348" width="118" height="56" rx="5"/>
+<text class="t" x="396" y="374">HEAT PRESS</text><text class="s" x="396" y="390">170-180C</text>
+<path class="a" d="M498 376 H546"/>
+<rect class="b" x="550" y="348" width="118" height="56" rx="5"/>
+<text class="t" x="566" y="374">PRESSED</text><text class="s" x="566" y="390">coasters · tags</text>
+<path class="a" d="M790 294 V330 H676"/>
+<rect class="bg" x="676" y="336" width="184" height="56" rx="5"/>
+<text class="t" x="692" y="362">NFC TAG SEATED</text><text class="s" x="692" y="378">NTAG215 · 504B NDEF</text>
+</svg>

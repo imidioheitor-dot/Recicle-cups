@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Irish Comeback — Research Dossier</title>
+<meta name="description" content="Feasibility research for a student-built plastic recycling and filament extrusion line at the University of Notre Dame. Materials, machines, bill of materials and budget.">
+<style>
+/* ============================================================
+   IRISH COMEBACK — RESEARCH DOSSIER
+   Design system: Notre Dame navy + gold on absolute void
+   ============================================================ */
+
+:root{
+  --void:#000000;
+  --surface:#06080C;
+  --surface-2:#0B0F16;
+  --navy:#0C2340;
+  --navy-lift:#143257;
+  --gold:#C99700;
+  --gold-bright:#E8B923;
+  --bone:#F5F3EF;
+  --ash:#8A8F98;
+  --mist:#B9BEC6;
+  --emerald:#10B981;
+  --rule:#1A2130;
+
+  --f-display:'Inter',ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+
+  --pad:clamp(20px,5vw,80px);
+  --sec:clamp(80px,12vh,160px);
+  --maxw:1320px;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--void);color:var(--bone);
+  font-family:var(--f-display);font-weight:200;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+
+/* ---------- Background field ---------- */
+#dotfield{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.55}
+#grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.035;mix-blend-mode:overlay;
+  width:100%;height:100%}
+#dotfield{width:100%;height:100%}
+
+.shell{position:relative;z-index:2}
+
+/* ---------- Cursor ---------- */
+#cur,#curDot{position:fixed;top:0;left:0;pointer-events:none;z-index:9999;border-radius:50%;
+  transform:translate3d(-100px,-100px,0);will-change:transform}
+#cur{width:36px;height:36px;border:1px solid rgba(201,151,0,.7);margin:-18px 0 0 -18px;
+  transition:width .3s cubic-bezier(.52,.01,0,1),height .3s cubic-bezier(.52,.01,0,1),
+  margin .3s cubic-bezier(.52,.01,0,1),background-color .3s,border-color .3s}
+#curDot{width:4px;height:4px;background:var(--gold-bright);margin:-2px 0 0 -2px}
+#cur.grow{width:76px;height:76px;margin:-38px 0 0 -38px;background:rgba(201,151,0,.12);border-color:rgba(232,185,35,.9)}
+@media (pointer:coarse){#cur,#curDot{display:none}}
+
+/* ---------- Typography ---------- */
+.eyebrow{
+  font-size:clamp(10px,1.05vw,12px);font-weight:600;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--gold);display:flex;align-items:center;gap:12px;margin:0 0 22px
+}
+.eyebrow::before{content:"";width:28px;height:1px;background:var(--gold);opacity:.8;flex:none}
+
+h1,h2,h3,h4{font-weight:400;margin:0;line-height:1.02;letter-spacing:-.04em}
+.display{font-size:clamp(52px,11vw,150px);line-height:.92}
+.h2{font-size:clamp(34px,5.6vw,76px);line-height:.98}
+.h3{font-size:clamp(22px,2.6vw,38px);letter-spacing:-.03em;line-height:1.06}
+.h4{font-size:clamp(17px,1.6vw,22px);letter-spacing:-.02em;font-weight:400}
+
+p{margin:0;font-size:clamp(14.5px,1.15vw,17.5px);line-height:1.62;color:var(--mist);font-weight:200}
+.lead{font-size:clamp(16px,1.5vw,21px);line-height:1.55;color:var(--bone)}
+.small{font-size:clamp(12px,1vw,13.5px);line-height:1.55;color:var(--ash)}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-variant-numeric:tabular-nums}
+.gold{color:var(--gold-bright)}
+.dim{color:var(--ash)}
+
+/* ---------- Layout ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--pad)}
+section{padding-block:var(--sec);position:relative}
+.rule{height:1px;background:linear-gradient(90deg,transparent,var(--rule) 12%,var(--rule) 88%,transparent);margin-block:0}
+
+/* ---------- Nav ---------- */
+header{position:fixed;top:0;left:0;right:0;z-index:100;transition:background .4s,backdrop-filter .4s,border-color .4s;
+  border-bottom:1px solid transparent}
+header.solid{background:rgba(3,5,8,.82);backdrop-filter:blur(18px) saturate(1.4);border-bottom-color:var(--rule)}
+.navin{max-width:var(--maxw);margin:0 auto;padding:16px var(--pad);display:flex;align-items:center;gap:28px}
+.brand{display:flex;align-items:center;gap:11px;font-size:13px;letter-spacing:.16em;text-transform:uppercase;font-weight:600}
+.brandmark{width:19px;height:19px;flex:none}
+.navlinks{margin-left:auto;display:flex;gap:30px}
+.navlinks a{font-size:11.5px;letter-spacing:.19em;text-transform:uppercase;font-weight:500;color:var(--ash);
+  transition:color .35s cubic-bezier(.52,.01,0,1);position:relative;padding-block:4px}
+.navlinks a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--gold);
+  transition:width .45s cubic-bezier(.52,.01,0,1)}
+.navlinks a:hover{color:var(--bone)}
+.navlinks a:hover::after{width:100%}
+.navlinks a.on{color:var(--gold-bright)}
+.navlinks a.on::after{width:100%}
+@media(max-width:900px){.navlinks{display:none}}
+
+/* ---------- Hero ---------- */
+.hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-top:110px;position:relative}
+.hero .display{max-width:16ch}
+.heroline{display:block;overflow:hidden}
+.heroline>span{display:block;transform:translateY(105%);transition:transform 1.1s cubic-bezier(.52,.01,0,1)}
+.hero.in .heroline>span{transform:translateY(0)}
+.hero.in .heroline:nth-child(2)>span{transition-delay:.09s}
+.hero.in .heroline:nth-child(3)>span{transition-delay:.18s}
+
+.herogrid{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(30px,5vw,80px);align-items:end;margin-top:clamp(36px,6vh,72px)}
+@media(max-width:900px){.herogrid{grid-template-columns:1fr;gap:34px}}
+
+.metastack{display:flex;flex-direction:column;gap:18px;border-left:1px solid var(--rule);padding-left:22px}
+.metarow{display:flex;justify-content:space-between;gap:16px;align-items:baseline}
+.metarow dt{font-size:10.5px;letter-spacing:.19em;text-transform:uppercase;color:var(--ash);font-weight:500}
+.metarow dd{margin:0;font-size:14px;color:var(--bone);text-align:right}
+
+.scrollcue{margin-top:clamp(40px,7vh,80px);display:flex;align-items:center;gap:12px;
+  font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--ash)}
+.cuebar{width:52px;height:1px;background:var(--rule);position:relative;overflow:hidden}
+.cuebar::after{content:"";position:absolute;inset:0;background:var(--gold);transform:translateX(-100%);
+  animation:cue 2.4s cubic-bezier(.52,.01,0,1) infinite}
+@keyframes cue{0%{transform:translateX(-100%)}55%{transform:translateX(0)}100%{transform:translateX(100%)}}
+
+/* ---------- Reveal ---------- */
+.rv{opacity:0;transform:translateY(28px);transition:opacity 1s cubic-bezier(.52,.01,0,1),transform 1s cubic-bezier(.52,.01,0,1)}
+.rv.in{opacity:1;transform:none}
+.rv[data-d="1"]{transition-delay:.08s}.rv[data-d="2"]{transition-delay:.16s}
+.rv[data-d="3"]{transition-delay:.24s}.rv[data-d="4"]{transition-delay:.32s}
+.rv[data-d="5"]{transition-delay:.4s}.rv[data-d="6"]{transition-delay:.48s}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}
+  .heroline>span{transform:none!important}}
+
+/* ---------- Stat band ---------- */
+.statband{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);
+  border-block:1px solid var(--rule)}
+.stat{background:var(--void);padding:clamp(24px,3.4vw,42px) clamp(16px,2vw,28px);position:relative;overflow:hidden}
+.stat::after{content:"";position:absolute;inset:0;background:radial-gradient(420px circle at var(--mx,50%) var(--my,50%),
+  rgba(201,151,0,.13),transparent 62%);opacity:0;transition:opacity .45s}
+.stat:hover::after{opacity:1}
+.statnum{font-size:clamp(34px,5vw,64px);font-weight:400;letter-spacing:-.045em;line-height:1;
+  color:var(--bone);display:flex;align-items:baseline;gap:3px}
+.statnum small{font-size:.4em;color:var(--gold);font-weight:500;letter-spacing:0}
+.statlab{margin-top:12px;font-size:10.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--ash);font-weight:500;line-height:1.5}
+@media(max-width:860px){.statband{grid-template-columns:repeat(2,1fr)}}
+
+/* ---------- Section head ---------- */
+.sechead{display:grid;grid-template-columns:.34fr .66fr;gap:clamp(24px,4vw,60px);align-items:start;margin-bottom:clamp(42px,6vw,80px)}
+@media(max-width:860px){.sechead{grid-template-columns:1fr;gap:20px}}
+.secnum{font-size:11px;letter-spacing:.2em;color:var(--gold);font-weight:600;font-variant-numeric:tabular-nums}
+
+/* ---------- Polymer cards ---------- */
+.polygrid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:1040px){.polygrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.polygrid{grid-template-columns:1fr}}
+
+.poly{position:relative;border:1px solid var(--rule);background:linear-gradient(160deg,var(--surface-2),var(--surface));
+  padding:26px 22px 24px;overflow:hidden;min-height:290px;display:flex;flex-direction:column;
+  transition:border-color .5s cubic-bezier(.52,.01,0,1),transform .5s cubic-bezier(.52,.01,0,1)}
+.poly::before{content:"";position:absolute;inset:0;padding:1px;pointer-events:none;opacity:0;transition:opacity .45s;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(232,185,35,.8),transparent 60%);
+  -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude}
+.poly:hover::before{opacity:1}
+.poly:hover{transform:translateY(-3px)}
+.polycode{width:46px;height:46px;flex:none;position:relative;margin-bottom:20px}
+.polycode svg{width:100%;height:100%}
+.polycode span{position:absolute;inset:0;display:grid;place-items:center;font-size:15px;font-weight:600;
+  color:var(--gold-bright);font-variant-numeric:tabular-nums}
+.polyname{font-size:20px;font-weight:400;letter-spacing:-.02em;margin-bottom:3px}
+.polyfull{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--ash);margin-bottom:16px;font-weight:500}
+.polybody{font-size:13.5px;line-height:1.6;color:var(--mist);flex:1}
+.polymeter{margin-top:18px;display:flex;flex-direction:column;gap:8px}
+.mtr{display:flex;align-items:center;gap:10px}
+.mtrlab{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);width:58px;flex:none;font-weight:500}
+.mtrbar{flex:1;height:2px;background:var(--rule);position:relative;overflow:hidden}
+.mtrfill{position:absolute;inset-block:0;left:0;width:0;transition:width 1.3s cubic-bezier(.52,.01,0,1)}
+.poly.in .mtrfill{width:var(--w)}
+.verdict{margin-top:18px;padding-top:14px;border-top:1px solid var(--rule);font-size:11px;letter-spacing:.13em;
+  text-transform:uppercase;font-weight:600;display:flex;align-items:center;gap:8px}
+.dotmark{width:6px;height:6px;border-radius:50%;flex:none}
+.v-yes{color:var(--emerald)}.v-yes .dotmark{background:var(--emerald);box-shadow:0 0 10px var(--emerald)}
+.v-part{color:var(--gold-bright)}.v-part .dotmark{background:var(--gold-bright);box-shadow:0 0 10px var(--gold-bright)}
+.v-no{color:#E0564F}.v-no .dotmark{background:#E0564F;box-shadow:0 0 10px #E0564F}
+
+/* ---------- Printer table ---------- */
+.ptable{border:1px solid var(--rule);overflow:hidden}
+.prow{display:grid;grid-template-columns:.28fr .22fr .22fr .28fr;gap:20px;padding:24px clamp(16px,2.2vw,30px);
+  border-bottom:1px solid var(--rule);position:relative;transition:background .4s}
+.prow:last-child{border-bottom:0}
+.prow.head{background:var(--surface-2);font-size:10px;letter-spacing:.19em;text-transform:uppercase;color:var(--ash);font-weight:600}
+.prow:not(.head):hover{background:var(--surface-2)}
+.prow:not(.head)::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--gold);
+  transform:scaleY(0);transform-origin:top;transition:transform .5s cubic-bezier(.52,.01,0,1)}
+.prow:not(.head):hover::before{transform:scaleY(1)}
+.pname{font-size:16px;color:var(--bone);letter-spacing:-.01em}
+.ploc{font-size:12.5px;color:var(--mist)}
+.pcell{font-size:12.5px;color:var(--mist);display:flex;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  padding:5px 10px;border:1px solid var(--rule);border-radius:999px;font-weight:600;white-space:nowrap}
+.chip.open{color:var(--emerald);border-color:rgba(16,185,129,.4)}
+.chip.closed{color:#E0564F;border-color:rgba(224,86,79,.4)}
+@media(max-width:880px){
+  .prow{grid-template-columns:1fr 1fr;gap:14px 18px}
+  .prow.head{display:none}
+  .prow{padding-block:20px}
+  .pname{grid-column:1/-1}
+}
+
+/* ---------- BOM ---------- */
+.bomwrap{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:980px){.bomwrap{grid-template-columns:1fr}}
+.bom{border:1px solid var(--rule);background:var(--surface);padding:clamp(22px,2.6vw,34px);position:relative;overflow:hidden}
+.bomhead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;padding-bottom:18px;
+  border-bottom:1px solid var(--rule);margin-bottom:6px}
+.bomtitle{font-size:17px;letter-spacing:-.01em}
+.bomtag{font-size:9.5px;letter-spacing:.17em;text-transform:uppercase;color:var(--gold);font-weight:600}
+.bitem{display:grid;grid-template-columns:1fr auto;gap:14px;padding:13px 0;border-bottom:1px solid rgba(26,33,48,.55);
+  align-items:baseline}
+.bitem:last-of-type{border-bottom:0}
+.bname{font-size:13.5px;color:var(--mist);line-height:1.45}
+.bsrc{display:block;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ash);margin-top:4px;font-weight:500}
+.bprice{font-size:14px;color:var(--bone);font-variant-numeric:tabular-nums;white-space:nowrap}
+.bsub{display:flex;justify-content:space-between;align-items:baseline;margin-top:18px;padding-top:16px;
+  border-top:1px solid var(--rule)}
+.bsublab{font-size:10.5px;letter-spacing:.19em;text-transform:uppercase;color:var(--ash);font-weight:600}
+.bsubval{font-size:26px;color:var(--gold-bright);font-variant-numeric:tabular-nums;letter-spacing:-.03em}
+
+.total{margin-top:14px;border:1px solid rgba(201,151,0,.34);background:
+  linear-gradient(135deg,rgba(12,35,64,.5),rgba(201,151,0,.05));padding:clamp(26px,3.4vw,44px);
+  display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center}
+@media(max-width:640px){.total{grid-template-columns:1fr;text-align:left}}
+.totnum{font-size:clamp(46px,8vw,92px);letter-spacing:-.05em;line-height:.9;font-weight:400;
+  font-variant-numeric:tabular-nums;color:var(--bone)}
+.budgetbar{margin-top:22px;height:5px;background:var(--rule);position:relative;overflow:hidden}
+.budgetfill{position:absolute;inset-block:0;left:0;width:0;background:linear-gradient(90deg,var(--navy-lift),var(--gold));
+  transition:width 1.8s cubic-bezier(.52,.01,0,1)}
+.total.in .budgetfill{width:96.8%}
+.budgetnote{display:flex;justify-content:space-between;margin-top:10px;font-size:10.5px;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--ash);font-weight:500}
+
+.trio{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:940px){.trio{grid-template-columns:1fr}}
+.sharedgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 34px}
+@media(max-width:760px){.sharedgrid{grid-template-columns:1fr;gap:0}}
+
+/* ---------- Risk ---------- */
+.riskgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media(max-width:940px){.riskgrid{grid-template-columns:1fr}}
+.risk{border:1px solid var(--rule);padding:clamp(22px,2.6vw,32px);background:var(--surface);position:relative;
+  transition:border-color .5s}
+.risk:hover{border-color:rgba(201,151,0,.36)}
+.risksev{font-size:9.5px;letter-spacing:.19em;text-transform:uppercase;font-weight:600;margin-bottom:16px;
+  display:inline-flex;align-items:center;gap:7px}
+.risktitle{font-size:19px;letter-spacing:-.02em;margin-bottom:12px;line-height:1.2}
+.riskfix{margin-top:18px;padding-top:16px;border-top:1px solid var(--rule);font-size:12.5px;color:var(--mist);line-height:1.6}
+.riskfix b{color:var(--gold-bright);font-weight:600;letter-spacing:.1em;text-transform:uppercase;font-size:9.5px;
+  display:block;margin-bottom:7px}
+
+/* ---------- Timeline ---------- */
+.tl{position:relative;padding-left:clamp(28px,4vw,54px)}
+.tl::before{content:"";position:absolute;left:5px;top:8px;bottom:8px;width:1px;background:var(--rule)}
+.tlprog{position:absolute;left:5px;top:8px;width:1px;background:linear-gradient(180deg,var(--gold),transparent);
+  height:0;transition:height .1s linear}
+.tlitem{position:relative;padding-bottom:clamp(30px,4vw,52px)}
+.tlitem:last-child{padding-bottom:0}
+.tldot{position:absolute;left:calc(-1*clamp(28px,4vw,54px));top:6px;width:11px;height:11px;border-radius:50%;
+  border:1px solid var(--rule);background:var(--void);transition:border-color .5s,background .5s,box-shadow .5s}
+.tlitem.in .tldot{border-color:var(--gold);background:var(--gold);box-shadow:0 0 0 4px rgba(201,151,0,.14)}
+.tlweek{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:9px}
+.tlhead{font-size:clamp(19px,2.2vw,27px);letter-spacing:-.025em;margin-bottom:10px;line-height:1.15}
+
+/* ---------- Sources ---------- */
+.srcgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:0 40px}
+@media(max-width:820px){.srcgrid{grid-template-columns:1fr}}
+.src{display:flex;gap:14px;padding:15px 0;border-bottom:1px solid var(--rule);align-items:baseline;
+  transition:padding-left .4s cubic-bezier(.52,.01,0,1)}
+.src:hover{padding-left:8px}
+.srcn{font-size:10px;color:var(--gold);font-variant-numeric:tabular-nums;flex:none;width:22px;font-weight:600}
+.srct{font-size:13px;color:var(--mist);line-height:1.5}
+.srct span{display:block;font-size:10.5px;color:var(--ash);margin-top:3px;word-break:break-all}
+.src:hover .srct{color:var(--bone)}
+
+/* ---------- Marquee ---------- */
+.marq{overflow:hidden;border-block:1px solid var(--rule);padding-block:clamp(18px,2.4vw,30px);
+  -webkit-mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  mask:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.marqin{display:flex;width:max-content;animation:slide 34s linear infinite}
+.marqin span{font-size:clamp(30px,5.4vw,72px);letter-spacing:-.04em;font-weight:400;padding-right:.5em;
+  color:transparent;-webkit-text-stroke:1px rgba(201,151,0,.42);white-space:nowrap}
+.marqin span:nth-child(even){color:var(--bone);-webkit-text-stroke:0}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ---------- Footer ---------- */
+footer{border-top:1px solid var(--rule);padding-block:clamp(44px,6vw,72px) 34px}
+.fgrid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:clamp(26px,4vw,60px)}
+@media(max-width:820px){.fgrid{grid-template-columns:1fr;gap:32px}}
+.fcol h5{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--ash);margin:0 0 16px;font-weight:600}
+.fcol a{display:block;font-size:13.5px;color:var(--mist);padding:6px 0;transition:color .3s,transform .4s cubic-bezier(.52,.01,0,1)}
+.fcol a:hover{color:var(--gold-bright);transform:translateX(4px)}
+.fbot{margin-top:clamp(34px,5vw,58px);padding-top:24px;border-top:1px solid var(--rule);
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--ash)}
+
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;
+  background:var(--gold);color:#0B0B0B;font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;font-weight:600;
+  transition:transform .4s cubic-bezier(.52,.01,0,1),box-shadow .4s,background .3s;border:0;cursor:pointer}
+.btn:hover{transform:translateY(-2px);box-shadow:0 12px 34px rgba(201,151,0,.28);background:var(--gold-bright)}
+.btn.ghost{background:transparent;color:var(--bone);border:1px solid var(--rule)}
+.btn.ghost:hover{border-color:var(--gold);color:var(--gold-bright);box-shadow:none}
+</style>
+</head>
+<body>
+
+<canvas id="dotfield"></canvas>
+<svg id="grain"><filter id="gf"><feTurbulence type="fractalNoise" baseFrequency=".82" numOctaves="3"/></filter><rect width="100%" height="100%" filter="url(#gf)"/></svg>
+
+<div id="cur"></div><div id="curDot"></div>
+
+<header id="hdr">
+  <div class="navin">
+    <a href="#top" class="brand">
+      <svg class="brandmark" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 2 22 7.5v9L12 22 2 16.5v-9L12 2Z" stroke="#C99700" stroke-width="1.3" stroke-linejoin="round"/>
+        <path d="M12 7.2 17 10v5l-5 2.8L7 15v-5l5-2.8Z" fill="#C99700" fill-opacity=".22" stroke="#E8B923" stroke-width="1"/>
+      </svg>
+      Irish Comeback
+    </a>
+    <nav class="navlinks">
+      <a href="#material" data-nav>Material</a>
+      <a href="#machines" data-nav>Machines</a>
+      <a href="#build" data-nav>Build</a>
+      <a href="#budget" data-nav>Budget</a>
+      <a href="#risk" data-nav>Risk</a>
+      <a href="presentation.html" style="color:var(--gold-bright)">The Product &rarr;</a>
+    </nav>
+  </div>
+</header>
+
+<div class="shell" id="top">
+
+<!-- ===================== HERO ===================== -->
+<section class="hero wrap" id="hero">
+  <p class="eyebrow">Research Dossier &nbsp;/&nbsp; Rev. 1.0 &nbsp;/&nbsp; University of Notre Dame</p>
+  <h1 class="display">
+    <span class="heroline"><span>Forty-nine tons</span></span>
+    <span class="heroline"><span>leave the stadium.</span></span>
+    <span class="heroline"><span><em style="font-style:normal;color:var(--gold-bright)">We keep some.</em></span></span>
+  </h1>
+
+  <div class="herogrid">
+    <div>
+      <p class="lead" style="max-width:52ch">
+        A feasibility study for a student-operated line that turns post-game bottle plastic
+        into 3D printing filament — and filament into objects that dorm rooms actually need.
+      </p>
+      <p class="small" style="margin-top:20px;max-width:52ch">
+        Every number on this page is sourced. Every component has a vendor and a price.
+        The ceiling is one thousand dollars.
+      </p>
+    </div>
+    <dl class="metastack">
+      <div class="metarow"><dt>Scope</dt><dd>Material · Machine · Budget</dd></div>
+      <div class="metarow"><dt>Budget ceiling</dt><dd>US$ 1,000.00</dd></div>
+      <div class="metarow"><dt>Feedstock</dt><dd>PET #1 · HDPE #2 · PP #5</dd></div>
+      <div class="metarow"><dt>Output</dt><dd>1.75 mm filament</dd></div>
+      <div class="metarow"><dt>Status</dt><dd class="gold">Cleared to build</dd></div>
+    </dl>
+  </div>
+
+  <div class="scrollcue"><span class="cuebar"></span> Scroll to begin</div>
+</section>
+
+<!-- ===================== STATS ===================== -->
+<div class="statband" id="stats">
+  <div class="stat" data-spot>
+    <div class="statnum"><span class="count" data-to="49">0</span><small>t</small></div>
+    <div class="statlab">Waste collected<br>after one home game</div>
+  </div>
+  <div class="stat" data-spot>
+    <div class="statnum"><span class="count" data-to="18">0</span><small>t</small></div>
+    <div class="statlab">Sorted for<br>recycling</div>
+  </div>
+  <div class="stat" data-spot>
+    <div class="statnum"><span class="count" data-to="37">0</span><small>%</small></div>
+    <div class="statlab">Diversion rate<br>— the gap is the point</div>
+  </div>
+  <div class="stat" data-spot>
+    <div class="statnum"><span class="count" data-to="7">0</span><small>×</small></div>
+    <div class="statlab">Home games<br>per season</div>
+  </div>
+</div>
+
+<!-- ===================== MATERIAL ===================== -->
+<section class="wrap" id="material">
+  <div class="sechead">
+    <div>
+      <p class="secnum rv">01 — Material</p>
+      <h2 class="h2 rv" data-d="1">What is<br>actually<br>in the bin</h2>
+    </div>
+    <div class="rv" data-d="2" style="padding-top:clamp(0px,3vw,42px)">
+      <p class="lead">Notre Dame Stadium collects <em style="font-style:normal" class="gold">empty water bottles only</em> in its green barrels. That single policy is a gift: it hands us a feedstock stream that is already 70&nbsp;% sorted before we touch it.</p>
+      <p style="margin-top:18px">The bottle is not one plastic. The body is PET&nbsp;#1, the cap is almost always PP&nbsp;#5, and the ring left behind is PP or HDPE. Those three polymers melt at different temperatures and do not blend. Separating them is not optional housekeeping — it is the whole engineering problem.</p>
+    </div>
+  </div>
+
+  <div class="polygrid">
+    <article class="poly rv" data-spot data-meter>
+      <div class="polycode">
+        <svg viewBox="0 0 48 48" fill="none"><path d="M24 5 43 38H5L24 5Z" stroke="#C99700" stroke-width="1.2" stroke-linejoin="round" opacity=".55"/></svg>
+        <span>1</span>
+      </div>
+      <div class="polyname">PET</div>
+      <div class="polyfull">Polyethylene terephthalate</div>
+      <p class="polybody">The bottle body. Over 70&nbsp;% of US beverage bottles. Strong, optically clear, and the single largest thing we can harvest. It is also hygroscopic — it drinks water out of the air, and water is what destroys it in the melt.</p>
+      <div class="polymeter">
+        <div class="mtr"><span class="mtrlab">Volume</span><span class="mtrbar"><span class="mtrfill" style="--w:94%;background:var(--gold)"></span></span></div>
+        <div class="mtr"><span class="mtrlab">Printab.</span><span class="mtrbar"><span class="mtrfill" style="--w:66%;background:var(--gold)"></span></span></div>
+        <div class="mtr"><span class="mtrlab">Difficulty</span><span class="mtrbar"><span class="mtrfill" style="--w:72%;background:#E0564F"></span></span></div>
+      </div>
+      <div class="verdict v-yes"><span class="dotmark"></span>Primary feedstock</div>
+    </article>
+
+    <article class="poly rv" data-d="1" data-spot data-meter>
+      <div class="polycode">
+        <svg viewBox="0 0 48 48" fill="none"><path d="M24 5 43 38H5L24 5Z" stroke="#C99700" stroke-width="1.2" stroke-linejoin="round" opacity=".55"/></svg>
+        <span>2</span>
+      </div>
+      <div class="polyname">HDPE</div>
+      <div class="polyfull">High-density polyethylene</div>
+      <p class="polybody">Milk jugs, detergent bottles, some caps. Chemically tough and pleasant to shred. Its flaw is thermal: it shrinks hard on cooling, so printed parts warp off the bed unless the geometry stays low and wide.</p>
+      <div class="polymeter">
+        <div class="mtr"><span class="mtrlab">Volume</span><span class="mtrbar"><span class="mtrfill" style="--w:38%;background:var(--gold)"></span></span></div>
+        <div class="mtr"><span class="mtrlab">Printab.</span><span class="mtrbar"><span class="mtrfill" style="--w:44%;background:var(--gold)"></span></span></div>
+        <div class="mtr"><span class="mtrlab">Difficulty</span><span class="mtrbar"><span class="mtrfill" style="--w:80%;background:#E0564F"></span></span></div>
+      </div>
+      <div class="verdict v-part"><span class="dotmark"></span>Press, don't print</div>
+    </article>
+
+    <article class="poly rv" data-d="2" data-spot data-meter>
+      <div class="polycode">
+        <svg viewBox="0 0 48 48" fill="none"><path d="M24 5 43 38H5L24 5Z" stroke="#C99700" stroke-width="1.2" stroke-linejoin="round" opacity=".55"/></svg>
+        <span>5</span>
+      </div>
+      <div class="polyname">PP</div>
+      <div class="polyfull">Polypropylene</div>
+      <p class="polybody">Every cap, every tamper ring. Individually small, collectively enormous — and the number-one contaminant risk. A few grams of PP inside a PET melt is enough to make the entire batch of filament brittle and unusable.</p>
+      <div class="polymeter">
+        <div class="mtr"><span class="mtrlab">Volume</span><span class="mtrbar"><span class="mtrfill" style="--w:29%;background:var(--gold)"></span></span></div>
+        <div class="mtr"><span class="mtrlab">Printab.</span><span class="mtrbar"><span class="mtrfill" style="--w:31%;background:var(--gold)"></span></span></div>
+        <div class="mtr"><span class="mtrlab">Difficulty</span><span class="mtrbar"><span class="mtrfill" style="--w:88%;background:#E0564F"></span></span></div>
+      </div>
+      <div class="verdict v-part"><span class="dotmark"></span>Separate stream</div>
+    </article>
+
+    <article class="poly rv" data-d="3" data-spot data-meter>
+      <div class="polycode">
+        <svg viewBox="0 0 48 48" fill="none"><path d="M24 5 43 38H5L24 5Z" stroke="#C99700" stroke-width="1.2" stroke-linejoin="round" opacity=".55"/></svg>
+        <span>3</span>
+      </div>
+      <div class="polyname">PVC</div>
+      <div class="polyfull">Polyvinyl chloride</div>
+      <p class="polybody">Rare in the stadium stream, catastrophic if present. Above roughly 180&nbsp;°C it releases hydrogen chloride gas — which corrodes the extruder barrel and is genuinely dangerous to breathe in a closed lab.</p>
+      <div class="polymeter">
+        <div class="mtr"><span class="mtrlab">Volume</span><span class="mtrbar"><span class="mtrfill" style="--w:4%;background:var(--gold)"></span></span></div>
+        <div class="mtr"><span class="mtrlab">Printab.</span><span class="mtrbar"><span class="mtrfill" style="--w:6%;background:var(--gold)"></span></span></div>
+        <div class="mtr"><span class="mtrlab">Difficulty</span><span class="mtrbar"><span class="mtrfill" style="--w:100%;background:#E0564F"></span></span></div>
+      </div>
+      <div class="verdict v-no"><span class="dotmark"></span>Reject on sight</div>
+    </article>
+  </div>
+
+  <div class="rv" style="margin-top:clamp(38px,5vw,64px);border:1px solid rgba(201,151,0,.3);
+       background:linear-gradient(135deg,rgba(12,35,64,.42),transparent);padding:clamp(24px,3.2vw,42px)">
+    <p class="eyebrow" style="margin-bottom:16px">The finding that shapes everything</p>
+    <p class="lead" style="max-width:78ch">
+      PET does not fail because it is weak. It fails because it is <em style="font-style:normal" class="gold">wet</em>.
+      Moisture trapped in the flake causes hydrolysis in the melt: water molecules cut the polymer chains,
+      and what comes out of the nozzle is brittle enough to snap in your fingers.
+    </p>
+    <p style="margin-top:16px;max-width:78ch">
+      This is why our build spends real money on a dehydrator before it spends anything on a fancy screw.
+      Four hours at 65&nbsp;°C is the difference between filament and garbage.
+    </p>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ===================== MACHINES ===================== -->
+<section class="wrap" id="machines">
+  <div class="sechead">
+    <div>
+      <p class="secnum rv">02 — Machines</p>
+      <h2 class="h2 rv" data-d="1">What Notre&nbsp;Dame<br>already<br>owns</h2>
+    </div>
+    <div class="rv" data-d="2" style="padding-top:clamp(0px,3vw,42px)">
+      <p class="lead">We do not need to buy a printer. The campus has several — but only some of them will accept a filament we made ourselves.</p>
+      <p style="margin-top:18px">This distinction decides the project. Industrial machines from Stratasys read a chip on the material cartridge and refuse anything unrecognised. Open-material machines in the Prusa family will happily print whatever you feed them. <em style="font-style:normal" class="gold">Our filament only has a home on the open ones.</em></p>
+    </div>
+  </div>
+
+  <div class="ptable rv">
+    <div class="prow head">
+      <div>Facility</div><div>Machine class</div><div>Material system</div><div>Access notes</div>
+    </div>
+    <div class="prow">
+      <div class="pname">Innovation Lab <span class="ploc" style="display:block;margin-top:5px">IDEA Center · Innovation Park</span></div>
+      <div class="pcell">Stratasys F120 &amp; F370<br>industrial FDM</div>
+      <div class="pcell"><span class="chip closed">Closed cartridge</span></div>
+      <div class="pcell">Staff-run. Excellent for the machine's own structural parts — will not accept recycled filament.</div>
+    </div>
+    <div class="prow">
+      <div class="pname">Architecture Library Makerspace <span class="ploc" style="display:block;margin-top:5px">Bond Hall basement · est. 2013</span></div>
+      <div class="pcell">Prusa-family FDM<br>large &amp; small format</div>
+      <div class="pcell"><span class="chip open">Open material</span></div>
+      <div class="pcell">PrusaSlicer workflow, staff-operated, printers run near-continuously. Submit files ≥2 weeks before a deadline.</div>
+    </div>
+    <div class="prow">
+      <div class="pname">Engineering Innovation Hub <span class="ploc" style="display:block;margin-top:5px">Stinson-Remick Hall</span></div>
+      <div class="pcell">Additive, machining<br>&amp; metrology</div>
+      <div class="pcell"><span class="chip open">Mixed</span></div>
+      <div class="pcell">Where the frame gets cut and the filament gets measured. Metrology bench validates our 1.75&nbsp;mm tolerance.</div>
+    </div>
+    <div class="prow">
+      <div class="pname">Irish Comeback bench <span class="ploc" style="display:block;margin-top:5px">Our own unit — this build</span></div>
+      <div class="pcell">Pultrusion + shredder<br>+ open FDM</div>
+      <div class="pcell"><span class="chip open">Anything we make</span></div>
+      <div class="pcell">The only station on campus that closes the loop from bottle to finished object in one room.</div>
+    </div>
+  </div>
+
+  <div class="rv trio" id="mgrid">
+    <div style="border:1px solid var(--rule);padding:26px;background:var(--surface)">
+      <p class="eyebrow" style="margin-bottom:12px">Lead time</p>
+      <p class="h3" style="margin-bottom:8px">2 weeks</p>
+      <p class="small">Recommended submission window at the Architecture Makerspace before any graded deadline. Our own bench removes this queue entirely.</p>
+    </div>
+    <div style="border:1px solid var(--rule);padding:26px;background:var(--surface)">
+      <p class="eyebrow" style="margin-bottom:12px">Priority rule</p>
+      <p class="h3" style="margin-bottom:8px">Coursework first</p>
+      <p class="small">Architecture coursework outranks everything else on shared printers. A club project sits at the back of the line — another reason to own the loop.</p>
+    </div>
+    <div style="border:1px solid var(--rule);padding:26px;background:var(--surface)">
+      <p class="eyebrow" style="margin-bottom:12px">Laser access</p>
+      <p class="h3" style="margin-bottom:8px">Frame cutting</p>
+      <p class="small">The Innovation Lab's laser cutter handles sheet metal and acrylic — it cuts our 6&nbsp;mm shredder frame and hopper for the cost of material.</p>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ===================== BUILD ===================== -->
+<section class="wrap" id="build">
+  <div class="sechead">
+    <div>
+      <p class="secnum rv">03 — Build</p>
+      <h2 class="h2 rv" data-d="1">Two lines,<br>not one</h2>
+    </div>
+    <div class="rv" data-d="2" style="padding-top:clamp(0px,3vw,42px)">
+      <p class="lead">A commercial desktop extruder — the Filabot EX2 — sells for <em style="font-style:normal" class="gold">US$&nbsp;2,945</em>. That is three times our entire budget, and it settles the architecture question immediately: we build, we do not buy.</p>
+      <p style="margin-top:18px">Trying to shred <em style="font-style:normal">and</em> screw-extrude everything on one machine would blow the ceiling. So the line splits by what each polymer is actually good at.</p>
+    </div>
+  </div>
+
+  <div class="bomwrap">
+    <div class="bom rv" data-spot>
+      <div class="bomhead">
+        <div>
+          <div class="bomtitle">Line A — Pultrusion</div>
+          <div class="small" style="margin-top:6px">PET bottle &rarr; continuous strip &rarr; filament</div>
+        </div>
+        <div class="bomtag">PET #1</div>
+      </div>
+      <p class="small" style="padding:16px 0;line-height:1.65">
+        The bottle is never shredded. A jig slices it into one unbroken ribbon, which is drawn through a
+        heated nozzle and re-formed as round 1.75&nbsp;mm filament. No screw, no auger, no melt reservoir —
+        which is exactly why it fits the budget.
+      </p>
+      <div class="bitem"><div class="bname">ReCreator 3D MK6 pultrusion kit<span class="bsrc">KB-3D · open source BOM</span></div><div class="bprice">$189</div></div>
+      <div class="bitem"><div class="bname">Adjustable 4-blade bottle cutter jig<span class="bsrc">Amazon</span></div><div class="bprice">$18</div></div>
+      <div class="bitem"><div class="bname">V6 hotend, 24 V, with thermistor<span class="bsrc">Amazon</span></div><div class="bprice">$24</div></div>
+      <div class="bitem"><div class="bname">NEMA 17 stepper + driver<span class="bsrc">Amazon</span></div><div class="bprice">$22</div></div>
+      <div class="bitem"><div class="bname">32-bit control board + display<span class="bsrc">BTT / MKS</span></div><div class="bprice">$35</div></div>
+      <div class="bitem"><div class="bname">24 V 10 A power supply<span class="bsrc">Amazon</span></div><div class="bprice">$28</div></div>
+      <div class="bitem"><div class="bname">PTFE tubing + 1.75 mm nozzle set<span class="bsrc">Amazon</span></div><div class="bprice">$14</div></div>
+      <div class="bitem"><div class="bname">Spooler &amp; guide (printed in-house)<span class="bsrc">Architecture Makerspace</span></div><div class="bprice">$12</div></div>
+      <div class="bsub"><span class="bsublab">Line A subtotal</span><span class="bsubval">$342</span></div>
+    </div>
+
+    <div class="bom rv" data-d="1" data-spot>
+      <div class="bomhead">
+        <div>
+          <div class="bomtitle">Line B — Shred &amp; press</div>
+          <div class="small" style="margin-top:6px">Caps &amp; HDPE &rarr; flake &rarr; pressed objects</div>
+        </div>
+        <div class="bomtag">PP #5 · HDPE #2</div>
+      </div>
+      <p class="small" style="padding:16px 0;line-height:1.65">
+        Caps never become filament — they warp too much and contaminate PET. Instead they are shredded into
+        flake and heat-pressed directly into solid objects: coasters, knobs, tokens. Same waste, different
+        and far cheaper physics.
+      </p>
+      <div class="bitem"><div class="bname">Hardened blade set — 12 blades + spacers<span class="bsrc">Precious Plastic Bazar</span></div><div class="bprice">$110</div></div>
+      <div class="bitem"><div class="bname">20 mm hex drive shaft, C45 steel<span class="bsrc">McMaster-Carr</span></div><div class="bprice">$24</div></div>
+      <div class="bitem"><div class="bname">Pillow-block bearings ×4<span class="bsrc">Amazon</span></div><div class="bprice">$26</div></div>
+      <div class="bitem"><div class="bname">Worm gear reducer, 60:1<span class="bsrc">Surplus Center</span></div><div class="bprice">$145</div></div>
+      <div class="bitem"><div class="bname">1.5 HP motor, 110 V (surplus)<span class="bsrc">Surplus Center</span></div><div class="bprice">$120</div></div>
+      <div class="bitem"><div class="bname">6 mm steel frame + hopper, laser cut<span class="bsrc">ND Innovation Lab · material only</span></div><div class="bprice">$45</div></div>
+      <div class="bitem"><div class="bname">Switchgear, E-stop, wiring loom<span class="bsrc">Amazon</span></div><div class="bprice">$58</div></div>
+      <div class="bsub"><span class="bsublab">Line B subtotal</span><span class="bsubval">$528</span></div>
+    </div>
+  </div>
+
+  <div class="bom rv" style="margin-top:14px" data-spot>
+    <div class="bomhead">
+      <div>
+        <div class="bomtitle">Shared — drying, safety, identity</div>
+        <div class="small" style="margin-top:6px">The unglamorous line items that decide whether any of it works</div>
+      </div>
+      <div class="bomtag">Both lines</div>
+    </div>
+    <div class="sharedgrid">
+      <div class="bitem"><div class="bname">Food dehydrator — PET drying at 65 °C<span class="bsrc">The single most important $45 in this build</span></div><div class="bprice">$45</div></div>
+      <div class="bitem"><div class="bname">NTAG215 NFC tags ×100<span class="bsrc">Amazon · 504-byte NDEF</span></div><div class="bprice">$18</div></div>
+      <div class="bitem"><div class="bname">PPE — gloves, goggles, respirator, extinguisher<span class="bsrc">Non-negotiable</span></div><div class="bprice">$35</div></div>
+    </div>
+    <div class="bsub"><span class="bsublab">Shared subtotal</span><span class="bsubval">$98</span></div>
+  </div>
+</section>
+
+<!-- ===================== BUDGET ===================== -->
+<section class="wrap" id="budget" style="padding-top:0">
+  <div class="total rv" data-spot>
+    <div>
+      <p class="eyebrow">Total capital cost</p>
+      <div class="totnum">$968<span style="font-size:.34em;color:var(--ash);letter-spacing:0"> .00</span></div>
+      <div class="budgetbar"><div class="budgetfill"></div></div>
+      <div class="budgetnote"><span>$0</span><span class="gold">96.8 % of ceiling</span><span>$1,000</span></div>
+      <p style="margin-top:24px;max-width:60ch">
+        $342 pultrusion + $528 shredder + $98 shared. That leaves
+        <em style="font-style:normal" class="gold">$32 of contingency</em> inside the thousand-dollar
+        envelope — roughly one replacement hotend and a spare set of bearings, which is precisely
+        what a first build burns through.
+      </p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:12px;min-width:190px">
+      <div style="border:1px solid var(--rule);padding:18px 20px">
+        <div class="small" style="letter-spacing:.16em;text-transform:uppercase;font-size:9.5px">Cost per kg</div>
+        <div style="font-size:30px;letter-spacing:-.03em;margin-top:7px">~$1.10</div>
+        <div class="small" style="margin-top:5px">energy + labour only</div>
+      </div>
+      <div style="border:1px solid var(--rule);padding:18px 20px">
+        <div class="small" style="letter-spacing:.16em;text-transform:uppercase;font-size:9.5px">Retail PETG</div>
+        <div style="font-size:30px;letter-spacing:-.03em;margin-top:7px">~$22</div>
+        <div class="small" style="margin-top:5px">per kg spool</div>
+      </div>
+      <div style="border:1px solid rgba(201,151,0,.4);padding:18px 20px;background:rgba(201,151,0,.06)">
+        <div class="small" style="letter-spacing:.16em;text-transform:uppercase;font-size:9.5px;color:var(--gold)">Break-even</div>
+        <div style="font-size:30px;letter-spacing:-.03em;margin-top:7px" class="gold">46 kg</div>
+        <div class="small" style="margin-top:5px">≈ 1,840 bottles</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marq">
+  <div class="marqin">
+    <span>Bottle</span><span>Flake</span><span>Filament</span><span>Object</span>
+    <span>Bottle</span><span>Flake</span><span>Filament</span><span>Object</span>
+  </div>
+</div>
+
+<!-- ===================== RISK ===================== -->
+<section class="wrap" id="risk">
+  <div class="sechead">
+    <div>
+      <p class="secnum rv">04 — Risk</p>
+      <h2 class="h2 rv" data-d="1">What kills<br>this project</h2>
+    </div>
+    <div class="rv" data-d="2" style="padding-top:clamp(0px,3vw,42px)">
+      <p class="lead">Three failure modes account for nearly every abandoned recycled-filament build we found in the literature. Each one has a specific, budgeted countermeasure in the bill of materials above.</p>
+    </div>
+  </div>
+
+  <div class="riskgrid">
+    <div class="risk rv">
+      <div class="risksev v-no"><span class="dotmark"></span>Severity: fatal</div>
+      <div class="risktitle">Moisture in the melt</div>
+      <p class="small" style="line-height:1.65">PET is hygroscopic. Any water still in the flake hydrolyses at extrusion temperature, cleaving polymer chains. The filament looks fine and snaps under its own weight.</p>
+      <div class="riskfix"><b>Countermeasure</b>4 h at 65 °C in the dehydrator, immediately before every run. Filament stored with desiccant in a sealed box. $45, line item one.</div>
+    </div>
+    <div class="risk rv" data-d="1">
+      <div class="risksev v-no"><span class="dotmark"></span>Severity: fatal</div>
+      <div class="risktitle">Cross-polymer contamination</div>
+      <p class="small" style="line-height:1.65">A few grams of PP from a single missed cap will make an entire PET batch brittle. The two polymers do not blend; they form weak boundaries that fracture.</p>
+      <div class="riskfix"><b>Countermeasure</b>Physical separation at intake, not sorting later. Caps and rings go to Line B by hand before a bottle ever reaches the cutter. Two bins, one rule.</div>
+    </div>
+    <div class="risk rv" data-d="2">
+      <div class="risksev v-part"><span class="dotmark"></span>Severity: high</div>
+      <div class="risktitle">Diameter drift</div>
+      <p class="small" style="line-height:1.65">Filament outside 1.75 ± 0.05 mm jams extruders or under-extrudes. Pultrusion drift comes from inconsistent pull speed and strip width.</p>
+      <div class="riskfix"><b>Countermeasure</b>Fixed-width cutter jig plus closed-loop pull rate. Every spool is sampled at ten points on the Engineering Innovation Hub metrology bench before it is cleared for printing.</div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ===================== TIMELINE ===================== -->
+<section class="wrap" id="timeline">
+  <div class="sechead">
+    <div>
+      <p class="secnum rv">05 — Sequence</p>
+      <h2 class="h2 rv" data-d="1">Eight weeks<br>to first spool</h2>
+    </div>
+    <div class="rv" data-d="2" style="padding-top:clamp(0px,3vw,42px)">
+      <p class="lead">Ordered so that the cheapest, highest-information experiments happen first. If pultrusion fails in week three, we have spent $342 and learned it — not $968.</p>
+    </div>
+  </div>
+
+  <div class="tl" id="tl">
+    <div class="tlprog" id="tlprog"></div>
+    <div class="tlitem rv"><span class="tldot"></span>
+      <div class="tlweek">Week 01—02</div>
+      <div class="tlhead">Intake &amp; characterisation</div>
+      <p style="max-width:64ch">Collect one game's worth of bottles. Sort, weigh, and log by polymer. Establish the real ratio of PET body to PP cap mass — every downstream decision depends on that number being measured, not assumed.</p>
+    </div>
+    <div class="tlitem rv" data-d="1"><span class="tldot"></span>
+      <div class="tlweek">Week 03—04</div>
+      <div class="tlhead">Line A — pultrusion</div>
+      <p style="max-width:64ch">Assemble the ReCreator kit. Dial in nozzle temperature and pull rate against diameter. Target: 200 g of filament holding 1.75 ± 0.05 mm across a full spool.</p>
+    </div>
+    <div class="tlitem rv" data-d="2"><span class="tldot"></span>
+      <div class="tlweek">Week 05—06</div>
+      <div class="tlhead">Line B — shredder</div>
+      <p style="max-width:64ch">Laser-cut the frame at the Innovation Lab, stack the blade set, wire the reducer and E-stop. First cap flake, first pressed coaster. Safety sign-off before the motor turns under load.</p>
+    </div>
+    <div class="tlitem rv" data-d="3"><span class="tldot"></span>
+      <div class="tlweek">Week 07</div>
+      <div class="tlhead">Print validation</div>
+      <p style="max-width:64ch">Run our filament through an open-material Prusa. Benchmark tensile and layer adhesion against retail PETG. Publish the delta honestly — including where recycled loses.</p>
+    </div>
+    <div class="tlitem rv" data-d="4"><span class="tldot"></span>
+      <div class="tlweek">Week 08</div>
+      <div class="tlhead">Product &amp; tag</div>
+      <p style="max-width:64ch">First dorm-need objects off the bed. NTAG215 tags encoded and seated into printed recesses. The loop closes: stadium bottle to labelled object in one building.</p>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ===================== SOURCES ===================== -->
+<section class="wrap" id="sources">
+  <div class="sechead">
+    <div>
+      <p class="secnum rv">06 — Sources</p>
+      <h2 class="h2 rv" data-d="1">Receipts</h2>
+    </div>
+    <div class="rv" data-d="2" style="padding-top:clamp(0px,3vw,42px)">
+      <p class="lead">Nothing on this page is estimated from memory. Pricing was checked against live vendor listings; campus facilities against University publications.</p>
+    </div>
+  </div>
+
+  <div class="srcgrid rv">
+    <a class="src" href="https://green.nd.edu/resources/single-stream-recycling/game-day-recycling/" target="_blank" rel="noopener"><span class="srcn">01</span><span class="srct">Game Day Sustainability — Campus Sustainability, University of Notre Dame<span>green.nd.edu</span></span></a>
+    <a class="src" href="https://ndsmcobserver.com/2019/09/game-day-waste-disposal/" target="_blank" rel="noopener"><span class="srcn">02</span><span class="srct">Cleaning up 49 tons of trash after first home game — The Observer<span>ndsmcobserver.com</span></span></a>
+    <a class="src" href="https://innovationlab.nd.edu/services/3d-printing-lab/" target="_blank" rel="noopener"><span class="srcn">03</span><span class="srct">3D Printing Lab — Innovation Lab, University of Notre Dame<span>innovationlab.nd.edu</span></span></a>
+    <a class="src" href="https://www.stratasys.com/en/resources/case-studies/university-of-notre-dame/" target="_blank" rel="noopener"><span class="srcn">04</span><span class="srct">How the Right 3D Printer Choice Builds New Businesses — Stratasys case study<span>stratasys.com</span></span></a>
+    <a class="src" href="https://libguides.library.nd.edu/architecture/makerspace" target="_blank" rel="noopener"><span class="srcn">05</span><span class="srct">Makerspace in the Architecture Library — ND Library Guides<span>libguides.library.nd.edu</span></span></a>
+    <a class="src" href="https://engineering.nd.edu/departments-programs/engineering-innovation-hub-at-notre-dame/" target="_blank" rel="noopener"><span class="srcn">06</span><span class="srct">Engineering Innovation Hub — College of Engineering<span>engineering.nd.edu</span></span></a>
+    <a class="src" href="https://www.filabot.com/blogs/polymer-and-extrusions-blog/how-to-recycle-pet-bottles-into-3d-printer-filament-technical-dive" target="_blank" rel="noopener"><span class="srcn">07</span><span class="srct">How to Recycle PET Bottles into 3D Printer Filament — Filabot<span>filabot.com</span></span></a>
+    <a class="src" href="https://www.3devo.com/blog/recycle-pet-into-3d-printing-filament" target="_blank" rel="noopener"><span class="srcn">08</span><span class="srct">How to Recycle PET Plastic into 3D Printing Filament — 3devo<span>3devo.com</span></span></a>
+    <a class="src" href="https://www.filabot.com/products/filabot-original-ex2" target="_blank" rel="noopener"><span class="srcn">09</span><span class="srct">EX2 Filament Extruder — Filabot (US$ 2,945 reference price)<span>filabot.com</span></span></a>
+    <a class="src" href="https://www.recreator3d.com/" target="_blank" rel="noopener"><span class="srcn">10</span><span class="srct">The ReCreator 3D — open source PET pultrusion project<span>recreator3d.com</span></span></a>
+    <a class="src" href="https://bazar.preciousplastic.com/machines/shredder/shredder-parts/" target="_blank" rel="noopener"><span class="srcn">11</span><span class="srct">DIY Plastic Shredder Parts — Precious Plastic Bazar<span>bazar.preciousplastic.com</span></span></a>
+    <a class="src" href="https://link.springer.com/article/10.1007/s44245-025-00169-5" target="_blank" rel="noopener"><span class="srcn">12</span><span class="srct">Recycling plastic water bottles into high quality filaments — Springer Nature<span>link.springer.com</span></span></a>
+  </div>
+</section>
+
+<footer class="wrap">
+  <div class="fgrid">
+    <div class="fcol">
+      <div class="brand" style="margin-bottom:18px">
+        <svg class="brandmark" viewBox="0 0 24 24" fill="none">
+          <path d="M12 2 22 7.5v9L12 22 2 16.5v-9L12 2Z" stroke="#C99700" stroke-width="1.3" stroke-linejoin="round"/>
+          <path d="M12 7.2 17 10v5l-5 2.8L7 15v-5l5-2.8Z" fill="#C99700" fill-opacity=".22" stroke="#E8B923" stroke-width="1"/>
+        </svg>
+        Irish Comeback
+      </div>
+      <p class="small" style="max-width:38ch">Because everything comes back. A student circular-manufacturing initiative at the University of Notre Dame.</p>
+      <a href="presentation.html" class="btn" style="margin-top:24px">See the product &rarr;</a>
+    </div>
+    <div class="fcol">
+      <h5>Dossier</h5>
+      <a href="#material">01 — Material</a>
+      <a href="#machines">02 — Machines</a>
+      <a href="#build">03 — Build</a>
+      <a href="#budget">04 — Budget</a>
+      <a href="#risk">05 — Risk</a>
+      <a href="#sources">06 — Sources</a>
+    </div>
+    <div class="fcol">
+      <h5>Downloads</h5>
+      <a href="irish-comeback-blueprint.zip">Machine blueprint pack (.zip)</a>
+      <a href="presentation.html">Product presentation</a>
+      <a href="#build">Bill of materials</a>
+    </div>
+  </div>
+  <div class="fbot">
+    <span>© Irish Comeback 2026 — University of Notre Dame</span>
+    <span>Research dossier rev. 1.0</span>
+  </div>
+</footer>
+
+</div><!-- /shell -->
+
+<script>
+(function(){
+'use strict';
+var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- Cursor ---------- */
+(function(){
+  var c=document.getElementById('cur'), d=document.getElementById('curDot');
+  if(!c||matchMedia('(pointer:coarse)').matches)return;
+  var tx=0,ty=0,cx=0,cy=0;
+  addEventListener('mousemove',function(e){tx=e.clientX;ty=e.clientY;
+    d.style.transform='translate3d('+tx+'px,'+ty+'px,0)';},{passive:true});
+  (function loop(){cx+=(tx-cx)*.16;cy+=(ty-cy)*.16;
+    c.style.transform='translate3d('+cx+'px,'+cy+'px,0)';requestAnimationFrame(loop);})();
+  document.querySelectorAll('a,button,.poly,.stat,.risk,.src,.bom').forEach(function(el){
+    el.addEventListener('mouseenter',function(){c.classList.add('grow')});
+    el.addEventListener('mouseleave',function(){c.classList.remove('grow')});
+  });
+})();
+
+/* ---------- Dot field background ---------- */
+(function(){
+  var cv=document.getElementById('dotfield');if(!cv)return;
+  var ctx=cv.getContext('2d',{alpha:true});
+  var dpr=Math.min(devicePixelRatio||1,2), W=0,H=0,dots=[],mx=-9999,my=-9999;
+  var STEP = innerWidth<700?30:24;
+  function size(){
+    W=innerWidth;H=innerHeight;
+    cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);build();
+  }
+  function build(){
+    dots=[];
+    var cols=Math.ceil(W/STEP),rows=Math.ceil(H/STEP);
+    for(var i=0;i<=cols;i++)for(var j=0;j<=rows;j++){
+      dots.push({x:i*STEP+STEP/2,y:j*STEP+STEP/2,ox:i*STEP+STEP/2,oy:j*STEP+STEP/2});
+    }
+  }
+  addEventListener('mousemove',function(e){mx=e.clientX;my=e.clientY;},{passive:true});
+  addEventListener('resize',size);
+  var t=0;
+  function draw(){
+    t+=.006;
+    ctx.clearRect(0,0,W,H);
+    var R=190,R2=R*R;
+    for(var k=0;k<dots.length;k++){
+      var p=dots[k];
+      var dx=p.ox-mx,dy=p.oy-my,d2=dx*dx+dy*dy;
+      var push=0;
+      if(d2<R2){var dd=Math.sqrt(d2)||1;var f=1-dd/R;push=f*f*22;
+        p.x+=((p.ox+dx/dd*push)-p.x)*.14;p.y+=((p.oy+dy/dd*push)-p.y)*.14;}
+      else{p.x+=(p.ox-p.x)*.08;p.y+=(p.oy-p.y)*.08;}
+      var wob=Math.sin(p.ox*.012+t)*.9;
+      var near=d2<R2?1-Math.sqrt(d2)/R:0;
+      var a=.16+near*.55;
+      ctx.fillStyle= near>.42 ? 'rgba(232,185,35,'+(a).toFixed(3)+')'
+                              : 'rgba(120,140,175,'+(a*.72).toFixed(3)+')';
+      var r=.85+near*1.5;
+      ctx.beginPath();ctx.arc(p.x,p.y+wob,r,0,6.2832);ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  size();
+  if(!reduce)draw();else{ctx.clearRect(0,0,W,H);}
+})();
+
+/* ---------- Reveal ---------- */
+var io=new IntersectionObserver(function(es){
+  es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.12,rootMargin:'0px 0px -8% 0px'});
+document.querySelectorAll('.rv,.poly,.total,.tlitem').forEach(function(el){io.observe(el)});
+
+/* hero in */
+requestAnimationFrame(function(){document.getElementById('hero').classList.add('in')});
+
+/* ---------- Counters ---------- */
+var cio=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(!e.isIntersecting)return;
+    var el=e.target,to=parseFloat(el.dataset.to),st=null,dur=1500;
+    function step(ts){ if(!st)st=ts; var p=Math.min((ts-st)/dur,1);
+      var ease=1-Math.pow(1-p,3);
+      el.textContent=Math.round(to*ease);
+      if(p<1)requestAnimationFrame(step); }
+    requestAnimationFrame(step); cio.unobserve(el);
+  });
+},{threshold:.5});
+document.querySelectorAll('.count').forEach(function(el){cio.observe(el)});
+
+/* ---------- Spotlight ---------- */
+document.querySelectorAll('[data-spot],.poly').forEach(function(el){
+  el.addEventListener('mousemove',function(e){
+    var r=el.getBoundingClientRect();
+    el.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+    el.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');
+  },{passive:true});
+});
+
+/* ---------- Header + nav scrollspy ---------- */
+var hdr=document.getElementById('hdr');
+var navA=[].slice.call(document.querySelectorAll('[data-nav]'));
+var secs=navA.map(function(a){return document.querySelector(a.getAttribute('href'))}).filter(Boolean);
+function onScroll(){
+  hdr.classList.toggle('solid',scrollY>60);
+  var y=scrollY+innerHeight*.32, cur=-1;
+  for(var i=0;i<secs.length;i++){ if(secs[i].offsetTop<=y)cur=i; }
+  navA.forEach(function(a,i){a.classList.toggle('on',i===cur)});
+  var tl=document.getElementById('tl'),pr=document.getElementById('tlprog');
+  if(tl&&pr){
+    var r=tl.getBoundingClientRect();
+    var p=Math.max(0,Math.min(1,(innerHeight*.6-r.top)/r.height));
+    pr.style.height=(p*100)+'%';
+  }
+}
+addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+/* smooth anchor */
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var t=document.querySelector(a.getAttribute('href'));if(!t)return;
+    e.preventDefault();t.scrollIntoView({behavior:reduce?'auto':'smooth',block:'start'});
+  });
+});
+})();
+</script>
+</body>
+</html>
