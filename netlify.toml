@@ -1,0 +1,37 @@
+# Irish Comeback — Netlify configuration
+# Deploys from branch claude/notre-dame-plastic-recycler-3fi9kn
+
+[build]
+  publish = "."
+  command = ""
+
+# Serve the product site at the root without changing the URL.
+[[redirects]]
+  from = "/"
+  to = "/presentation.html"
+  status = 200
+
+# Friendly aliases
+[[redirects]]
+  from = "/research"
+  to = "/research.html"
+  status = 200
+
+[[redirects]]
+  from = "/site"
+  to = "/presentation.html"
+  status = 200
+
+# Media is immutable — cache it hard.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# HTML changes on every deploy — never cache it.
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

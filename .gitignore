@@ -1,4 +1,7 @@
 node_modules/
 package-lock.json
+# generated media lives on the CDN and is fetched on demand,
+# except the hero film which ships with the repo so Netlify serves it
 pack-site/assets/*.png
 pack-site/assets/*.mp4
+assets/*.png
