@@ -121,7 +121,9 @@ header.solid{background:rgba(2,4,7,.8);backdrop-filter:blur(20px) saturate(1.5);
 }
 
 /* ---------- Hero ---------- */
-.hero{height:320vh;min-height:2000px;position:relative}
+/* padding-block from the global section rule would offset the sticky pin,
+   pushing the bottom of the cover below the fold at scroll 0 */
+.hero{height:320vh;min-height:2000px;position:relative;padding-block:0}
 .herofilm{position:absolute;inset:0;z-index:0;width:100%;height:100%;object-fit:cover;
   opacity:var(--fo,.5);transform:scale(var(--fs,1));transform-origin:50% 45%;
   filter:saturate(.82) contrast(1.08) brightness(.62);
