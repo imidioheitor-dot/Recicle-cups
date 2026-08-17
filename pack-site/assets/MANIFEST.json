@@ -94,5 +94,35 @@
  {
   "local": "bg-machine.mp4",
   "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_212027_e017a8e4-5b07-4f18-9f32-47fdc173aeb1.mp4"
+ },
+ {
+  "local": "board-process.jpg",
+  "url": null,
+  "bundled": true
+ },
+ {
+  "local": "step-01-collect.jpg",
+  "url": null,
+  "bundled": true
+ },
+ {
+  "local": "step-02-separate.jpg",
+  "url": null,
+  "bundled": true
+ },
+ {
+  "local": "step-03-dry.jpg",
+  "url": null,
+  "bundled": true
+ },
+ {
+  "local": "step-04-draw.jpg",
+  "url": null,
+  "bundled": true
+ },
+ {
+  "local": "step-05-print.jpg",
+  "url": null,
+  "bundled": true
  }
 ]

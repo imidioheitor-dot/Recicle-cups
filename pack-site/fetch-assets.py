@@ -18,6 +18,8 @@ def main():
     ok = skip = fail = 0
     for i, it in enumerate(items, 1):
         dest = os.path.join(ASSETS, it["local"])
+        if it.get("bundled") or not it.get("url"):
+            print("[%2d/%d] bundled %s" % (i, len(items), it["local"])); skip += 1; continue
         if os.path.exists(dest) and os.path.getsize(dest) > 0:
             print("[%2d/%d] have   %s" % (i, len(items), it["local"])); skip += 1; continue
         try:

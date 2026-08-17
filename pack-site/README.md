@@ -44,11 +44,17 @@ drop-in. Keep the name, keep the aspect ratio.
 | `product-family.png` | Banner above the product grid |
 | `handle-tap.png` / `block-focus.png` | The Tag section pair |
 | `spool-macro.png` | Built section + the Print process step |
+| `board-process.jpg` | Process section backdrop — the full five-step board |
+| `step-01-collect.jpg` … `step-05-print.jpg` | behind each of the five process steps |
 | `bg-machine.mp4` / `bg-products.mp4` / `bg-tag.mp4` | Silent background video on three sections |
 
 The six `product-*.png` files are **transparent PNGs** — they were generated on a white
 plate and background-removed, so they sit on the dark page with no visible box. If you
 replace one, cut it out too or it will show a rectangle.
+
+The six `.jpg` files are **already in the zip** — they came from the process board
+you supplied, sliced along its own gutters. `fetch-assets.py` skips them (they are
+marked `bundled` in the manifest); everything else it downloads.
 
 ## A note on the media
 

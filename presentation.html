@@ -115,7 +115,13 @@ header.solid{background:rgba(2,4,7,.8);backdrop-filter:blur(20px) saturate(1.5);
 #burger.x i:nth-child(1){transform:translateY(3px) rotate(45deg)}
 #burger.x i:nth-child(2){transform:translateY(-3px) rotate(-45deg)}
 @media(max-width:1000px){
-  .nlinks{position:fixed;inset:0;flex-direction:column;justify-content:center;gap:6px;background:rgba(2,4,7,.97);
+  /* header.solid turns on backdrop-filter once you scroll, which makes the
+     header the containing block for its fixed children. inset:0 would then
+     size this panel to the 70px header and translateY(-100%) would only lift
+     it 70px, leaving the menu parked over the page. Viewport units resolve
+     against the viewport either way. */
+  .nlinks{position:fixed;top:0;left:0;width:100vw;height:100vh;height:100dvh;
+    flex-direction:column;justify-content:center;gap:6px;background:rgba(2,4,7,.97);
     backdrop-filter:blur(24px);transform:translateY(-100%);transition:transform .7s var(--ease);z-index:-1}
   .nlinks.open{transform:none}
   .nlinks a{font-size:19px;letter-spacing:.1em;padding:14px}
@@ -308,7 +314,7 @@ header.solid{background:rgba(2,4,7,.8);backdrop-filter:blur(20px) saturate(1.5);
 
 /* ---------- Step photo + decorative section backgrounds ---------- */
 .pstep .simg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;
-  opacity:.36;filter:saturate(.88) contrast(1.06) brightness(.82);
+  opacity:.46;filter:saturate(.92) contrast(1.04) brightness(.86);
   transition:opacity .7s var(--ease),transform 1.3s var(--ease)}
 .pstep:hover .simg{opacity:.68;transform:scale(1.06)}
 .pstep::after{content:"";position:absolute;inset:0;z-index:0;pointer-events:none;
@@ -319,6 +325,10 @@ header.solid{background:rgba(2,4,7,.8);backdrop-filter:blur(20px) saturate(1.5);
   z-index:0;overflow:hidden;pointer-events:none}
 .decobg img{width:100%;height:100%;object-fit:cover;display:block;
   opacity:.32;filter:saturate(.8) contrast(1.05) brightness(.74)}
+/* the process board carries its own captions — blur them just past reading
+   so the layer stays visible without competing with the section heading */
+.decobg.board img{filter:saturate(.85) contrast(1.04) brightness(.8) blur(3px);
+  opacity:.34;transform:scale(1.05)}
 .decobg::after{content:"";position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.42) 22%,rgba(0,0,0,.42) 78%,rgba(0,0,0,.94) 100%)}
 .hasdeco{isolation:isolate}
@@ -592,7 +602,7 @@ footer{border-top:1px solid var(--rule);padding-block:clamp(46px,6vw,76px) 32px}
 
 <!-- ==================== PROCESS ==================== -->
 <section class="wrap hasdeco" id="process">
-  <div class="decobg"><img src="assets/machine-assembled.png" alt="The assembled recycling machine" loading="lazy" onerror="this.onerror=null;this.src='https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_691ec520-adb3-47ea-9f5a-74fb2b2ccaf7.png'"></div>
+  <div class="decobg board"><img src="assets/board-process.jpg" alt="The five-step process board" loading="lazy"></div>
   <div class="shead">
     <div>
       <p class="snum rv">03 — Process</p>
@@ -604,35 +614,35 @@ footer{border-top:1px solid var(--rule);padding-block:clamp(46px,6vw,76px) 32px}
   </div>
   <div class="proc rv" id="proc">
     <article class="pstep" data-scene="0">
-      <img class="simg" src="assets/machine-lab-night.png" alt="Crates of collected bottles in the lab" loading="lazy" onerror="this.onerror=null;this.src='https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210014_43bcd0ba-479b-4c4f-a5bb-db13b2a635fa.png'">
+      <img class="simg" src="assets/step-01-collect.jpg" alt="Notre Dame bottles in a green campus barrel" loading="lazy">
       <div class="pnum">01</div>
       <h3 class="ptitle">Collect</h3>
       <p class="pbody">Green barrels, water bottles only. The cleanest plastic stream on campus, already separated by eighty thousand people who did not know they were helping.</p>
       <div class="ptemp">Ambient</div>
     </article>
     <article class="pstep" data-scene="1">
-      <img class="simg" src="assets/machine-hopper.png" alt="Cap flake resting on the shredder blades" loading="lazy" onerror="this.onerror=null;this.src='https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210014_9e18a219-d5b0-49da-aabe-5afd08b7f60b.png'">
+      <img class="simg" src="assets/step-02-separate.jpg" alt="Cap and ring lifting off the bottle neck" loading="lazy">
       <div class="pnum">02</div>
       <h3 class="ptitle">Separate</h3>
       <p class="pbody">Caps and rings come off by hand and go to their own line. One missed PP cap is enough to ruin an entire batch of PET filament.</p>
       <div class="ptemp">By hand</div>
     </article>
     <article class="pstep" data-scene="2">
-      <img class="simg" src="assets/machine-front.png" alt="The dehydrator stage of the machine" loading="lazy" onerror="this.onerror=null;this.src='https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_683481e5-6b76-444e-a86e-371c45b313f3.png'">
+      <img class="simg" src="assets/step-03-dry.jpg" alt="Flake drying at 65 degrees for four hours" loading="lazy">
       <div class="pnum">03</div>
       <h3 class="ptitle">Dry</h3>
       <p class="pbody">Four hours at 65 °C. PET pulls water out of the air, and water cuts the polymer chains in the melt. This unglamorous step decides everything.</p>
       <div class="ptemp">65 °C · 4 h</div>
     </article>
     <article class="pstep" data-scene="3">
-      <img class="simg" src="assets/machine-die.png" alt="Filament emerging from the heated die" loading="lazy" onerror="this.onerror=null;this.src='https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210014_14bf1ec2-6c5d-455b-9f83-85d3ed50e1f0.png'">
+      <img class="simg" src="assets/step-04-draw.jpg" alt="Filament drawn from the heated nozzle" loading="lazy">
       <div class="pnum">04</div>
       <h3 class="ptitle">Draw</h3>
       <p class="pbody">The bottle is sliced into one unbroken ribbon and pulled through a heated nozzle, emerging as round filament at 1.75 mm.</p>
       <div class="ptemp">245 °C</div>
     </article>
     <article class="pstep" data-scene="4">
-      <img class="simg" src="assets/spool-macro.png" alt="A finished spool of recycled filament" loading="lazy" onerror="this.onerror=null;this.src='https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210137_79034a56-ba70-48b7-aa93-da4448bdddee.png'">
+      <img class="simg" src="assets/step-05-print.jpg" alt="The finished object coming off the print bed" loading="lazy">
       <div class="pnum">05</div>
       <h3 class="ptitle">Print</h3>
       <p class="pbody">Onto an open-material machine, then an NTAG215 chip seats into a printed recess. The object knows its own history.</p>
