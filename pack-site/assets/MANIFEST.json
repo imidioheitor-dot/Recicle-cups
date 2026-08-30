@@ -1,128 +1,16 @@
 [
- {
-  "local": "bp-03-shredder.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_13d83e22-a6a3-4e73-9011-496d60992589.png"
- },
- {
-  "local": "machine-knolling.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_49500974-c29d-4b2f-be1e-e096303f11d8.png"
- },
- {
-  "local": "bp-02-exploded.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_4d550211-a325-4e85-a806-af0005acc2c2.png"
- },
- {
-  "local": "machine-front.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_683481e5-6b76-444e-a86e-371c45b313f3.png"
- },
- {
-  "local": "machine-assembled.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_691ec520-adb3-47ea-9f5a-74fb2b2ccaf7.png"
- },
- {
-  "local": "bp-01-elevation.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_a02c7e13-c1d6-43a4-91a4-b593ed61a1e7.png"
- },
- {
-  "local": "bp-05-panels.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_d5c1c261-008e-42a0-9494-e985d90f1311.png"
- },
- {
-  "local": "bp-04-barrel.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_205841_ec9f65c7-236f-477d-8c86-ac54080e1302.png"
- },
- {
-  "local": "machine-die.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210014_14bf1ec2-6c5d-455b-9f83-85d3ed50e1f0.png"
- },
- {
-  "local": "machine-lab-night.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210014_43bcd0ba-479b-4c4f-a5bb-db13b2a635fa.png"
- },
- {
-  "local": "machine-hopper.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210014_9e18a219-d5b0-49da-aabe-5afd08b7f60b.png"
- },
- {
-  "local": "spool-macro.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210137_79034a56-ba70-48b7-aa93-da4448bdddee.png"
- },
- {
-  "local": "block-focus.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210137_9a4925d7-2256-4e9c-a636-8f3841e4c5c6.png"
- },
- {
-  "local": "handle-tap.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210137_c7972597-a55f-4356-b51b-ba4a5bd8adf9.png"
- },
- {
-  "local": "product-family.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_210137_dc378809-1021-4df0-b5da-693bbfcf4821.png"
- },
- {
-  "local": "product-organizer.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_211323_c1f42000-d721-4b1f-8917-219bb4c6d419.png"
- },
- {
-  "local": "product-tumbler.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_211332_5bbb09c9-ad10-4b43-8f17-823c5c97f67c.png"
- },
- {
-  "local": "product-handle.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_211403_5bc74749-3624-461c-bd68-bd484ed085cf.png"
- },
- {
-  "local": "product-block.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_211408_ad189b5f-262a-48cd-aa4b-379aad4d4cb0.png"
- },
- {
-  "local": "product-shelf.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_211414_a56b5062-3fb4-4d0e-bb4d-5d9b901a9132.png"
- },
- {
-  "local": "product-filament.png",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_211737_8590c9a6-242d-4fc3-a649-7cab95dbbd91.png"
- },
- {
-  "local": "bg-products.mp4",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_212027_023bb33a-bd20-41a1-89e9-8dcf33449549.mp4"
- },
- {
-  "local": "bg-tag.mp4",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_212027_5b135055-38c1-4f32-b113-c37cc59c72e0.mp4"
- },
- {
-  "local": "bg-machine.mp4",
-  "url": "https://d8j0ntlcm91z4.cloudfront.net/user_3Fn9kvwewWSxcmhyI5mG7uDadG8/hf_20260810_212027_e017a8e4-5b07-4f18-9f32-47fdc173aeb1.mp4"
- },
- {
-  "local": "board-process.jpg",
-  "url": null,
-  "bundled": true
- },
- {
-  "local": "step-01-collect.jpg",
-  "url": null,
-  "bundled": true
- },
- {
-  "local": "step-02-separate.jpg",
-  "url": null,
-  "bundled": true
- },
- {
-  "local": "step-03-dry.jpg",
-  "url": null,
-  "bundled": true
- },
- {
-  "local": "step-04-draw.jpg",
-  "url": null,
-  "bundled": true
- },
- {
-  "local": "step-05-print.jpg",
-  "url": null,
-  "bundled": true
- }
+ { "local": "hero-film.mp4",        "bundled": true, "url": null,
+   "note": "Hero cover film. Faststart-remuxed so the browser can start decoding before the file finishes downloading." },
+ { "local": "step-01-collect.jpg",  "bundled": true, "url": null,
+   "note": "Process step 01. Cropped so no University mark or building is reproduced." },
+ { "local": "step-02-separate.jpg", "bundled": true, "url": null,
+   "note": "Process step 02. Cropped so no University mark is reproduced." },
+ { "local": "step-03-dry.jpg",      "bundled": true, "url": null,
+   "note": "Process step 03. Top band cropped away: it carried the registered ND monogram." },
+ { "local": "step-04-draw.jpg",     "bundled": true, "url": null,
+   "note": "Process step 04. Right column cropped away: it carried the registered ND monogram." },
+ { "local": "board-process.jpg",    "bundled": true, "url": null,
+   "note": "Source board the four step crops came from. NOT referenced by the site: every panel carries the registered ND monogram. Kept for reference only." },
+ { "local": "step-05-print.jpg",    "bundled": true, "url": null,
+   "note": "NOT referenced by the site. Its entire subject is a print of the registered ND monogram. Process step 05 is now a live WebGL build view of MDL-02 instead." }
 ]

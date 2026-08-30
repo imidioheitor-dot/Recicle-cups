@@ -1,70 +1,69 @@
-# Irish Comeback — site package
+# Irish Comeback — offline site pack
 
-Not self-contained by design: the HTML loads its media from `./assets/`, so you can
-open any image, swap it, recrop it or replace it with a real photograph later.
+Unzip anywhere and open `presentation.html`. No build step, no server, no
+network. Everything the page needs is in this folder.
 
-```
-presentation.html            the product site — open this first
-research.html                the sourced feasibility dossier
-HIGGSFIELD-PROMPTS.md        every prompt used, plus the canonical machine spec
-irish-comeback-blueprint.zip the build pack (drawings, BOM, tutorial)
-assets/MANIFEST.json         the 24 media files and where they come from
-fetch-assets.py              downloads them into ./assets
-fetch-assets.sh              same thing, for a shell
-```
+## What is in here
 
-## Start here
+    presentation.html            the site
+    research.html                the research dossier
+    irish-comeback-blueprint.zip BOM, die drawing, PID notes, log template
+    assets/                      the five files the site actually loads
+    assets/MANIFEST.json         what each asset is and why
+    HIGGSFIELD-PROMPTS.md        the generation prompts, kept for the record
+    fetch-assets.py              legacy fetcher, see "No CDN" below
 
-```bash
-python3 fetch-assets.py      # ~24 files into ./assets
-```
+## No CDN
 
-Then open `presentation.html` in a browser. That's it — no server, no build step.
+Earlier builds pulled rendered PNGs of the machine and the products from a
+CDN at first load. This build does not. Those renders were replaced by
+geometry the page draws itself in WebGL, so the only binary assets left are
+one video and four photographs, and all five ship inside this folder.
 
-**You can skip the download entirely.** Every `<img>` carries an `onerror` fallback and
-every `<video>` a `data-fallback`, both pointing at the original CDN URL. Open the HTML
-straight out of the zip with an internet connection and it renders exactly the same.
-Running the fetcher just makes it work offline and lets you edit the files.
+`fetch-assets.py` is kept because the manifest format is still useful if you
+add remote assets of your own. Run against this manifest it will report every
+entry as `bundled` and download nothing.
 
-## Swapping in your own photographs
+The one external request the page still makes is to Google Fonts. If it is
+blocked, or you are offline, the page falls back to the system grotesk and
+system monospace and the layout does not move.
 
-Filenames are stable and descriptive, so replacing a render with a real photo is a
-drop-in. Keep the name, keep the aspect ratio.
+## Swapping a render for a real photograph
 
-| File | Where it appears |
-|---|---|
-| `bp-01-elevation.png` … `bp-05-panels.png` | Machine section, the drawing set |
-| `machine-assembled.png` | Built section, hero shot + process backdrop |
-| `machine-knolling.png` | Built section, the disassembled inventory |
-| `machine-front.png` | Built section + the Dry process step |
-| `machine-die.png` | Built section + the Draw process step |
-| `machine-hopper.png` | Built section + the Separate process step |
-| `machine-lab-night.png` | Built section + Collect step + Problem backdrop |
-| `product-organizer.png` … `product-filament.png` | The six product cards (cutouts with alpha) |
-| `product-family.png` | Banner above the product grid |
-| `handle-tap.png` / `block-focus.png` | The Tag section pair |
-| `spool-macro.png` | Built section + the Print process step |
-| `board-process.jpg` | Process section backdrop — the full five-step board |
-| `step-01-collect.jpg` … `step-05-print.jpg` | behind each of the five process steps |
-| `bg-machine.mp4` / `bg-products.mp4` / `bg-tag.mp4` | Silent background video on three sections |
-
-The six `product-*.png` files are **transparent PNGs** — they were generated on a white
-plate and background-removed, so they sit on the dark page with no visible box. If you
-replace one, cut it out too or it will show a rectangle.
-
-The six `.jpg` files are **already in the zip** — they came from the process board
-you supplied, sliced along its own gutters. `fetch-assets.py` skips them (they are
-marked `bundled` in the manifest); everything else it downloads.
-
-## A note on the media
-
-These are AI-generated renders and drawings, not photographs of a machine that exists.
-The blueprint sheets are illustrative — the dimensioned, hand-drawn SVGs inside
-`irish-comeback-blueprint.zip` are the ones to build from.
+Filenames are stable and descriptive. Drop a real photograph over
+`assets/step-03-dry.jpg` and the site picks it up with no code change. Keep
+the aspect ratio roughly as-is; the cards use `object-fit: cover`, so a
+different ratio crops rather than distorts.
 
 ## Trademark
 
-The visual language is Notre Dame's palette and architecture — navy, gold, the domed
-silhouette, collegiate gothic arches. The registered **ND monogram and University
-wordmarks are deliberately not reproduced.** Using those on anything public, especially
-anything with a price on it, needs licensing from the University.
+This is an independent student project. It is not affiliated with, endorsed
+by, or sponsored by the University of Notre Dame. The University's registered
+ND monogram, its wordmarks and its athletic marks are deliberately not
+reproduced anywhere on the site or on any part the line produces.
+
+Two supplied images did carry the registered monogram and were handled
+before shipping:
+
+* `step-03-dry.jpg` and `step-04-draw.jpg` were cropped to remove it.
+* `step-05-print.jpg` could not be cropped — a print of the monogram was its
+  entire subject — so it is no longer referenced. Process step 05 now shows a
+  live WebGL build of MDL-02, the hex vessel, instead.
+* `board-process.jpg` is the source board those crops came from. Every one of
+  its five panels carries the monogram, so it is kept for reference only and
+  is not referenced by the site.
+
+Nothing was deleted; the originals are still in `assets/` if you want them.
+
+## What the page renders itself
+
+* Fig. 1, the problem section — 2,000 lit plates carrying three baked
+  positions each (bottle wall, flake drift, wound spool), blended by scroll.
+* The portal — a hexagonal shaft, one fullscreen fragment shader, 44 rings
+  spaced exponentially so the recession is angularly even.
+* MDL-01 to MDL-03 — procedural geometry, draggable. These are models. No
+  part on this site has been manufactured yet, and the page says so.
+* Process step 05 — the MDL-02 mesh under a rising clip plane.
+
+All of it degrades: if WebGL is unavailable the canvases hide themselves and
+the surrounding layout is unaffected.
